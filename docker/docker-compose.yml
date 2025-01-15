@@ -1,0 +1,25 @@
+version: '2'
+
+services:
+    docker_trello_postgres:
+        container_name: docker_trello_postgres
+        image: postgres:latest
+        ports:
+            - "${POSTGRES_PORT}:5432"
+        environment:
+            - POSTGRES_DB=${POSTGRES_DB}
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+        networks:
+            - trello
+
+    postgres_adminer:
+        image: adminer
+        restart: always
+        ports:
+            - "${ADMINER_PORT}:8080"
+        networks:
+            - trello
+
+networks:
+    trello:
