@@ -18,16 +18,14 @@ export const AppDataSource = new DataSource({
       ? path.join(__dirname, '../dist/**/*.entity.js')
       : path.join(__dirname, '../src/**/*.entity.ts'),
   ],
+  migrations: [
+    isProduction
+      ? path.join(__dirname, '../dist/migrations/**/*.js')
+      : path.join(__dirname, '../src/migrations/**/*.ts'),
+  ],
   synchronize: process.env.DB_SYNCHRONIZE === 'true',
   logging: process.env.DB_LOGGING === 'true',
   connectTimeoutMS: 10000,
 });
 
-(async () => {
-  try {
-    await AppDataSource.initialize();
-    console.log('DataSource has been initialized!');
-  } catch (error) {
-    console.error('Error during DataSource initialization:', error);
-  }
-})();
+
