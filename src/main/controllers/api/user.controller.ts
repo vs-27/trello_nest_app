@@ -13,8 +13,8 @@ export class UserController {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  @Post()
-  async createUser(
+  @Post('reg')
+  async registration(
     @Body('user') createUserDto: CreateUserDto,
   ): Promise<User> {
     return this.userService.createUser(createUserDto);
