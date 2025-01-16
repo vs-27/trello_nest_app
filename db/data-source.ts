@@ -4,7 +4,7 @@ import * as path from 'path';
 
 dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 
-const isProduction = process.env.NODE_ENV === 'production';
+const isDistDir = __dirname.slice(-7) === 'dist/db';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -14,18 +14,12 @@ export const AppDataSource = new DataSource({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   entities: [
-    isProduction
-      ? path.join(__dirname, '../dist/**/*.entity.js')
-      : path.join(__dirname, '../src/**/*.entity.ts'),
+    isDistDir ? path.join(process.cwd(), '/dist/src/**/*.entity{.ts,.js}') : path.join(process.cwd(), '/src/**/*.entity{.ts,.js}'),
   ],
   migrations: [
-    isProduction
-      ? path.join(__dirname, '../dist/migrations/**/*.js')
-      : path.join(__dirname, '../src/migrations/**/*.ts'),
+    isDistDir ? path.join(process.cwd(), '/dist/src/migrations/**/*{.ts,.js}') : path.join(process.cwd(), '/src/migrations/**/*{.ts,.js}'),
   ],
   synchronize: process.env.DB_SYNCHRONIZE === 'true',
   logging: process.env.DB_LOGGING === 'true',
   connectTimeoutMS: 10000,
 });
-
-
