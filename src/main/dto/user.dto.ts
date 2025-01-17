@@ -1,17 +1,18 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 export class CreateUserDto {
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   readonly firstName?: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   readonly lastName?: string;
 
   @IsNotEmpty()
+  @IsString()
   readonly username: string;
 
   @IsNotEmpty()
@@ -26,4 +27,12 @@ export class CreateUserDto {
 
   @UpdateDateColumn()
   readonly updatedAt: Date;
+}
+
+export class LoginUserDto {
+  @IsNotEmpty()
+  readonly email: string;
+
+  @IsNotEmpty()
+  readonly password: string;
 }
