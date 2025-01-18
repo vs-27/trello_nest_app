@@ -11,6 +11,8 @@ async function bootstrap() {
   app.setBaseViewsDir(join(process.cwd(), 'views'));
   app.setViewEngine('ejs');
   app.use(multer().none());
+  app.setViewEngine('ejs');
+  app.setBaseViewsDir(join(__dirname, '..', 'views')); // Directory for your EJS files
 
   await app.listen(process.env.PORT ? process.env.PORT : 3000);
 }
