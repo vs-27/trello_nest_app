@@ -30,8 +30,13 @@ export class CreateUserDto {
 }
 
 export class LoginUserDto {
-  @IsNotEmpty()
+  @IsEmail()
+  @IsString()
   readonly email: string;
+
+  @IsOptional()
+  @IsString()
+  readonly username: string;
 
   @IsNotEmpty()
   readonly password: string;
