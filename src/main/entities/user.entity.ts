@@ -5,11 +5,12 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  BeforeInsert
+  BeforeInsert, OneToMany, JoinTable
 } from 'typeorm';
+import { CartEntity } from './cart.entity';
 
 @Entity('users')
-export class User {
+export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -38,4 +39,8 @@ export class User {
   async hashPassword() {
     this.password = await hash(this.password, 10);
   }
+
+  @OneToMany(() => CartEntity, (cart) => cart.createdBy, { eager: true })
+  @JoinTable()
+  carts: CartEntity[];
 }

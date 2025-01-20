@@ -2,7 +2,7 @@ import { Body, Controller, Post, UsePipes } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto, LoginUserDto } from '../../dto/user.dto';
-import { User } from '../../entities/user.entity';
+import { UserEntity } from '../../entities/user.entity';
 import { BackendValidationPipe } from '../../pipes/backendValidation.pipe';
 import { UserService } from '../../services/user.service';
 import { UserResponseInterface } from '../../types/userResponse.interface';
@@ -11,8 +11,8 @@ import { UserResponseInterface } from '../../types/userResponse.interface';
 export class UserController {
   constructor(
     private readonly userService: UserService,
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
   ) {}
 
   @Post('/reg')

@@ -4,18 +4,18 @@ import { compare } from 'bcrypt';
 import { Repository } from 'typeorm';
 import { JWT_SECRET } from '../../config';
 import { CreateUserDto, LoginUserDto } from '../dto/user.dto';
-import { User } from '../entities/user.entity';
+import { UserEntity } from '../entities/user.entity';
 import { sign } from 'jsonwebtoken';
 import { UserResponseInterface } from '../types/userResponse.interface';
 
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  async createUser(createUserDto: CreateUserDto): Promise<User> {
+  async createUser(createUserDto: CreateUserDto): Promise<UserEntity> {
     const errorResponse = {
       errors: {},
     };
@@ -37,12 +37,12 @@ export class UserService {
       throw new HttpException(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
-    const newUser = new User();
+    const newUser = new UserEntity();
     Object.assign(newUser, createUserDto);
     return await this.userRepository.save(newUser);
   }
 
-  async loginUser(loginUserDto: LoginUserDto): Promise<User> {
+  async loginUser(loginUserDto: LoginUserDto): Promise<UserEntity> {
     const errorResponse = {
       errors: {
         'email or password': 'is invalid',
@@ -74,13 +74,13 @@ export class UserService {
     return user;
   }
 
-  findById(id: number): Promise<User> {
+  findById(id: number): Promise<UserEntity> {
     return this.userRepository.findOne({
       where: { id },
     });
   }
 
-  generateJwt(user: User): string {
+  generateJwt(user: UserEntity): string {
     return sign(
       {
         id: user.id,
@@ -91,7 +91,7 @@ export class UserService {
     );
   }
 
-  buildUserResponse(user: User): UserResponseInterface {
+  buildUserResponse(user: UserEntity): UserResponseInterface {
     return {
       user: {
         ...user,
