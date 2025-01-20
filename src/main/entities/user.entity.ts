@@ -5,9 +5,8 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  BeforeInsert, OneToMany, JoinTable
+  BeforeInsert,
 } from 'typeorm';
-import { CartEntity } from './cart.entity';
 
 @Entity('users')
 export class UserEntity {
@@ -29,18 +28,14 @@ export class UserEntity {
   @Column({ type: 'varchar', length: 255, nullable: false })
   password: string;
 
-  @CreateDateColumn({ type: 'timestamp', precision: 0})
+  @CreateDateColumn({ type: 'timestamp', precision: 0 })
   createdAt: Date;
 
-  @UpdateDateColumn({ type: 'timestamp', precision: 0})
+  @UpdateDateColumn({ type: 'timestamp', precision: 0 })
   updatedAt: Date;
 
   @BeforeInsert()
   async hashPassword() {
     this.password = await hash(this.password, 10);
   }
-
-  @OneToMany(() => CartEntity, (cart) => cart.createdBy, { eager: true })
-  @JoinTable()
-  carts: CartEntity[];
 }
