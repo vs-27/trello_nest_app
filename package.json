@@ -30,6 +30,7 @@
     "c": "npx nestjs-command"
   },
   "dependencies": {
+    "@liaoliaots/nestjs-redis": "^10.0.0",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.3.0",
     "@nestjs/core": "^10.0.0",
@@ -41,6 +42,7 @@
     "class-validator": "latest",
     "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
+    "ioredis": "^5.4.2",
     "jsonwebtoken": "latest",
     "multer": "latest",
     "nestjs-command": "^3.1.4",
