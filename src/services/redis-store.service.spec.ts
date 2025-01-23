@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ConfigModule } from '@nestjs/config';
-import { RedisService, RedisModule } from '@liaoliaots/nestjs-redis';
+import { AppModule } from '../app.module';
 import { RedisStoreService } from './redis-store.service';
 
 describe('RedisStoreService (Integration)', () => {
@@ -8,14 +7,7 @@ describe('RedisStoreService (Integration)', () => {
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        ConfigModule.forRoot({ isGlobal: true }),
-        RedisModule.forRoot({
-          config: {
-            url: process.env.REDIS_URL,
-          },
-        }),
-      ],
+      imports: [AppModule],
       providers: [RedisStoreService],
     }).compile();
 
