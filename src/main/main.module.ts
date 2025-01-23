@@ -1,3 +1,4 @@
+import { RedisStoreService } from '../services/redis-store.service';
 import { CartController } from './controllers/api/cart.controller';
 import { UserController } from './controllers/api/user.controller';
 import { AuthController } from './controllers/render-views/auth.controller';
@@ -21,6 +22,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   ],
   providers: [
     UserService,
+    RedisStoreService,
     CartService,
     AuthGuard
   ],
