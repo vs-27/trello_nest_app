@@ -21,4 +21,8 @@ export class RedisStoreService {
   async get(key) {
     return JSON.parse(await this.redis.get(key));
   }
+
+  async clear(key) {
+    await this.redis.del(key);
+  }
 }
