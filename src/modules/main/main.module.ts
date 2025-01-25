@@ -1,4 +1,5 @@
 import { RedisModule } from '@liaoliaots/nestjs-redis';
+import { HttpModule } from '@nestjs/axios';
 import { PassportModule } from '@nestjs/passport';
 import { CommandModule } from 'nestjs-command';
 import { AppDataSource } from '../../../db/data-source';
@@ -27,6 +28,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       }
     }),
     CommandModule,
+    HttpModule
   ],
   controllers: [
     UserController,
