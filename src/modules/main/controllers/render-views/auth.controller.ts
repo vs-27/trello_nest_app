@@ -13,9 +13,11 @@ export class AuthController {
   ) {}
 
   @Get('login')
+  @Render('main/views//login/login')
   getLoginPage(@Res() res: Response) {
-    const loginPagePath = join(process.cwd(), 'src/modules/main/views/login/login.html');
-    res.sendFile(loginPagePath);
+    return {
+      title: 'Login page!',
+    };
   }
 
   // @Get('google')

@@ -9,6 +9,9 @@ const PORT = process.env.PORT || 3000;
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(MainModule);
   
+  app.setBaseViewsDir(join(process.cwd(), 'src/modules'));
+  app.setViewEngine('ejs');
+
   app.useStaticAssets(join(process.cwd(), 'public'));
   
   app.use(multer().none());
