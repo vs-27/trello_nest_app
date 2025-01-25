@@ -4,16 +4,18 @@ import { join } from 'path';
 import * as multer from 'multer';
 import { MainModule } from './modules/main/main.module';
 
+const PORT = process.env.PORT || 3000;
+
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(MainModule);
-
+  
   app.useStaticAssets(join(process.cwd(), 'public'));
-  app.setBaseViewsDir(join(process.cwd(), 'views'));
-  app.setViewEngine('ejs');
+  
   app.use(multer().none());
-  app.setViewEngine('ejs');
-  app.setBaseViewsDir(join(__dirname, '..', 'views')); // Directory for your EJS files
+  
+  await app.listen(PORT);
 
-  await app.listen(process.env.PORT ? process.env.PORT : 3000);
+  console.log(`Application is running on: http://localhost:${PORT}`);
 }
+
 bootstrap();
