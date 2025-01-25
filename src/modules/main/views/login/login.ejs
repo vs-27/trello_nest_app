@@ -9,8 +9,6 @@
 <body>
 <h2><%= title %></h2>
 <div class="container" id="auth-container">
-  <%- dump(ouath) %>
-
   <div class="form-container sign-up-container">
     <form action="#" id="reg-form">
       <h1>Create Account</h1>
@@ -31,7 +29,7 @@
       <h1>Sign in</h1>
       <div class="social-container">
         <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-        <a href="/auth/google" class="social"><i class="fab fa-google-plus-g"></i></a>
+        <a href="<%= ouath.google.url %>" class="social"><i class="fab fa-google-plus-g"></i></a>
         <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
       </div>
       <span>or use your account</span>

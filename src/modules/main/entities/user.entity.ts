@@ -5,8 +5,9 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  BeforeInsert,
+  BeforeInsert, OneToMany,
 } from 'typeorm';
+import { UserOauthEntity } from './user-oauth.entity';
 
 @Entity('users')
 export class UserEntity {
@@ -33,6 +34,11 @@ export class UserEntity {
 
   @UpdateDateColumn({ type: 'timestamp', precision: 0 })
   updatedAt: Date;
+  
+  @OneToMany(() => UserOauthEntity, (userOauth) => userOauth.user, {
+    cascade: true,
+  })
+  oauthProfiles: UserOauthEntity[];
 
   @BeforeInsert()
   async hashPassword() {

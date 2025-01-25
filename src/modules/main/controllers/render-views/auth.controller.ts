@@ -1,102 +1,52 @@
-import { Controller, Get, Res, Req, Query, UseGuards, Render } from '@nestjs/common';
+import { Controller, Get, Res, Query, Render } from '@nestjs/common';
 import { Response } from 'express';
-import { join } from 'path';
-import { AuthGuard } from '@nestjs/passport';
 import * as querystring from 'querystring';
 import { HttpService } from '@nestjs/axios';
-import { lastValueFrom } from 'rxjs';
+import { GoogleStrategy } from '../../services/oauth/google.strategy';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly httpService: HttpService,
+    private readonly googleStrategy: GoogleStrategy,
   ) {}
 
   @Get('login')
-  @Render('main/views//login/login')
+  @Render('main/views/login/login')
   getLoginPage(@Res() res: Response) {
     return {
       title: 'Login page!',
+      ouath: {
+        google: {
+          url: this.getGoogleAuthUrl(),
+        }
+      }
     };
   }
-
-  // @Get('google')
-  // @UseGuards(AuthGuard('google')) // Uses the Google strategy
-  // async googleAuth() {
-  //   // This route is only for redirecting users to Google
-  //   return 'Redirecting to Google for authentication...';
-  // }
-  //
-  // // Step 2: Handles the redirect from Google after authentication
-  // @Get('google/redirect')
-  // @UseGuards(AuthGuard('google'))
-  // async googleAuthRedirect(@Req() req) {
-  //   // The user information from Google will be available here
-  //   return {
-  //     message: 'Google OAuth Successful',
-  //     user: req.user, // The user details returned from GoogleStrategy's validate method
-  //   };
-  // }
-  //
-  //
-  // // REST endpoint to return Google OAuth login URL
-  // @Get('google/url')
-  // async getGoogleAuthUrl() {
-  //   const clientId = this.configService.get<string>('GOOGLE_CLIENT_ID');
-  //   const redirectUri = this.configService.get<string>('GOOGLE_REDIRECT_URI');
-  //
-  //   const googleAuthUrl = 'https://accounts.google.com/o/oauth2/v2/auth';
-  //
-  //   const queryParams = querystring.stringify({
-  //     client_id: clientId,
-  //     redirect_uri: redirectUri,
-  //     response_type: 'code',
-  //     scope: 'email profile',
-  //     access_type: 'offline',
-  //     prompt: 'consent',
-  //   });
-  //
-  //   return { url: `${googleAuthUrl}?${queryParams}` };
-  // }
-  //
-  //
-  //
-  // @Get('google/callback')
-  // async handleGoogleCallback(@Query('code') code: string) {
-  //   const clientId = this.configService.get<string>('GOOGLE_CLIENT_ID');
-  //   const clientSecret = this.configService.get<string>('GOOGLE_CLIENT_SECRET');
-  //   const redirectUri = this.configService.get<string>('GOOGLE_REDIRECT_URI');
-  //
-  //   const tokenUrl = 'https://oauth2.googleapis.com/token';
-  //
-  //   // Exchange code for tokens
-  //   const tokenResponse = await lastValueFrom(
-  //     this.httpService.post(tokenUrl, {
-  //       code,
-  //       client_id: clientId,
-  //       client_secret: clientSecret,
-  //       redirect_uri: redirectUri,
-  //       grant_type: 'authorization_code',
-  //     }),
-  //   );
-  //
-  //   const tokens = tokenResponse.data;
-  //
-  //   // Fetch user information
-  //   const userInfoResponse = await lastValueFrom(
-  //     this.httpService.get('https://www.googleapis.com/oauth2/v2/userinfo', {
-  //       headers: { Authorization: `Bearer ${tokens.access_token}` },
-  //     }),
-  //   );
-  //
-  //   const userInfo = userInfoResponse.data;
-  //
-  //   return {
-  //     message: 'Google OAuth successful',
-  //     user: userInfo,
-  //     tokens,
-  //   };
-  // }
-
-
+  
+  @Get('google/redirect')
+  async googleAuthRedirect(@Query() { code }) {
+    const { tokensData, profile } = await this.googleStrategy.processAuthCode(code);
+    return {
+      message: 'Google OAuth Successful',
+    };
+  }
+  
+  private getGoogleAuthUrl(): string {
+    const clientId = process.env.OAUTH_GOOGLE_CLIENT_ID;
+    const redirectUri = process.env.OAUTH_GOOGLE_REDIRECT_URL;
+    
+    const googleAuthUrl = 'https://accounts.google.com/o/oauth2/v2/auth';
+    
+    const queryParams = querystring.stringify({
+      client_id: clientId,
+      redirect_uri: redirectUri,
+      response_type: 'code',
+      scope: 'email profile',
+      access_type: 'offline',
+      prompt: 'consent',
+    });
+    
+    return `${googleAuthUrl}?${queryParams}`;
+  }
 }
