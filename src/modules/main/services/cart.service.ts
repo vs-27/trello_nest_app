@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { RedisStoreService } from '../../services/redis-store.service';
+import { RedisStoreService } from './redis-store.service';
 
 export const REDIS_CART_KEY_PREFIX = 'CART_';
 

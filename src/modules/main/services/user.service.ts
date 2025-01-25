@@ -2,7 +2,6 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { compare } from 'bcrypt';
 import { Repository } from 'typeorm';
-import { JWT_SECRET } from '../../config';
 import { CreateUserDto, LoginUserDto } from '../dto/user.dto';
 import { UserEntity } from '../entities/user.entity';
 import { sign } from 'jsonwebtoken';
@@ -87,7 +86,7 @@ export class UserService {
         username: user.username,
         email: user.email,
       },
-      JWT_SECRET,
+      process.env.JWT_SECRET,
     );
   }
 

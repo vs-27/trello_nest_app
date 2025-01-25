@@ -1,8 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AppModule } from '../../app.module';
-import { RedisStoreService } from '../../services/redis-store.service';
 import { MainModule } from '../main.module';
 import { CartService } from './cart.service';
+import { RedisStoreService } from './redis-store.service';
 
 describe('RedisStoreService (Integration)', () => {
   let cartService: CartService;
@@ -10,7 +9,7 @@ describe('RedisStoreService (Integration)', () => {
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [AppModule, MainModule],
+      imports: [MainModule],
       providers: [CartService, RedisStoreService],
     }).compile();
 
