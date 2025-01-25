@@ -9,6 +9,7 @@ import { AuthController } from './controllers/render-views/auth.controller';
 import { UserEntity } from './entities/user.entity';
 import { AuthGuard } from './guards/auth.guard';
 import { CartService } from './services/cart.service';
+import { HashService } from './services/hash.service';
 import { GoogleStrategy } from './services/oauth/google.strategy';
 import { RedisStoreService } from './services/redis-store.service';
 import { UserService } from './services/user.service';
@@ -41,6 +42,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     CartService,
     AuthGuard,
     GoogleStrategy,
+    HashService,
   ],
   exports: [UserService, CartService],
 })

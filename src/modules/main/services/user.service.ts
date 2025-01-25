@@ -2,10 +2,11 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { compare } from 'bcrypt';
 import { Repository } from 'typeorm';
-import { CreateUserDto, LoginUserDto } from '../dto/user.dto';
-import { UserEntity } from '../entities/user.entity';
 import { sign } from 'jsonwebtoken';
 import { UserResponseInterface } from '../types/userResponse.interface';
+import { CreateUserDto, LoginUserDto } from '../dto/user.dto';
+import { UserEntity } from '../entities/user.entity';
+import { HashService } from './hash.service';
 
 @Injectable()
 export class UserService {
@@ -47,12 +48,17 @@ export class UserService {
         'email or password': 'is invalid',
       },
     };
+    
+    const options = {};
+    if (loginUserDto.email) options['email'] = loginUserDto.email;
+    if (loginUserDto.username) options['username'] = loginUserDto.username;
+    
+    if (!Object.keys(options).length) {
+      throw new HttpException(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
 
     const user = await this.userRepository.findOne({
-      where: {
-        email: loginUserDto.email,
-        username: loginUserDto.username
-      },
+      where: options,
       select: ['id', 'username', 'email', 'password', 'firstName', 'lastName', 'createdAt' ],
     });
 
@@ -71,6 +77,25 @@ export class UserService {
 
     delete user.password;
     return user;
+  }
+  
+  async processOauth(tokensData, profile): Promise<{ JWT: string }> {
+    let user: UserEntity|null = await this.userRepository.findOne({
+      where: { email: profile.email },
+    });
+    
+    if (!user) {
+      const dto = new CreateUserDto();
+      dto.email = profile.email;
+      dto.firstName = profile.given_name;
+      dto.lastName = profile.family_name;
+      dto.username = profile.email;
+      dto.password = HashService.generateRandomString(dto.email, 16, false);
+  
+      user = await this.createUser(dto);
+    }
+
+    return { JWT: this.generateJwt(user) };
   }
 
   findById(id: number): Promise<UserEntity> {

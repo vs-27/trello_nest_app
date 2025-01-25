@@ -3,12 +3,14 @@ import { Response } from 'express';
 import * as querystring from 'querystring';
 import { HttpService } from '@nestjs/axios';
 import { GoogleStrategy } from '../../services/oauth/google.strategy';
+import { UserService } from '../../services/user.service';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly httpService: HttpService,
     private readonly googleStrategy: GoogleStrategy,
+    private readonly userService: UserService,
   ) {}
 
   @Get('login')
@@ -27,9 +29,9 @@ export class AuthController {
   @Get('google/redirect')
   async googleAuthRedirect(@Query() { code }) {
     const { tokensData, profile } = await this.googleStrategy.processAuthCode(code);
-    return {
-      message: 'Google OAuth Successful',
-    };
+    const { JWT } = await this.userService.processOauth(tokensData, profile);
+
+    return { JWT };
   }
   
   private getGoogleAuthUrl(): string {
