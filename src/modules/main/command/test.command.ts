@@ -1,6 +1,6 @@
 import { Command } from 'nestjs-command';
 import { Injectable } from '@nestjs/common';
-import { CartService } from '../main/services/cart.service';
+import { CartService } from '../services/cart.service';
 import { RedisStoreService } from '../services/redis-store.service';
 
 @Injectable()
