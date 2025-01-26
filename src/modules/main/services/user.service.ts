@@ -48,11 +48,11 @@ export class UserService {
         'email or password': 'is invalid',
       },
     };
-    
+
     const options = {};
     if (loginUserDto.email) options['email'] = loginUserDto.email;
     if (loginUserDto.username) options['username'] = loginUserDto.username;
-    
+
     if (!Object.keys(options).length) {
       throw new HttpException(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
     }
@@ -78,12 +78,12 @@ export class UserService {
     delete user.password;
     return user;
   }
-  
+
   async processOauth(tokensData, profile): Promise<{ JWT: string }> {
     let user: UserEntity|null = await this.userRepository.findOne({
       where: { email: profile.email },
     });
-    
+
     if (!user) {
       const dto = new CreateUserDto();
       dto.email = profile.email;
@@ -91,7 +91,7 @@ export class UserService {
       dto.lastName = profile.family_name;
       dto.username = profile.email;
       dto.password = HashService.generateRandomString(dto.email, 16, false);
-  
+
       user = await this.createUser(dto);
     }
 
