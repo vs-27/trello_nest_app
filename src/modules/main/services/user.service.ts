@@ -1,8 +1,9 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { compare } from 'bcrypt';
-import { Repository } from 'typeorm';
+import { EntityManager, Repository } from 'typeorm';
 import { sign } from 'jsonwebtoken';
+import { UserOauthEntity } from '../entities/user-oauth.entity';
 import { UserResponseInterface } from '../types/userResponse.interface';
 import { CreateUserDto, LoginUserDto } from '../dto/user.dto';
 import { UserEntity } from '../entities/user.entity';
@@ -11,6 +12,7 @@ import { HashService } from './hash.service';
 @Injectable()
 export class UserService {
   constructor(
+    private readonly em: EntityManager,
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
   ) {}
@@ -79,23 +81,26 @@ export class UserService {
     return user;
   }
 
-  async processOauth(tokensData, profile): Promise<{ JWT: string }> {
+  async processOauth(dto: CreateUserDto, { tokensData, profile }): Promise<{ JWT: string, user: UserEntity }> {
     let user: UserEntity|null = await this.userRepository.findOne({
       where: { email: profile.email },
     });
 
     if (!user) {
-      const dto = new CreateUserDto();
-      dto.email = profile.email;
-      dto.firstName = profile.given_name;
-      dto.lastName = profile.family_name;
-      dto.username = profile.email;
       dto.password = HashService.generateRandomString(dto.email, 16, false);
+      dto.username = dto.email;
 
       user = await this.createUser(dto);
+
+      const oauthProfile = new UserOauthEntity();
+      oauthProfile.user = user;
+      oauthProfile.profile = profile;
+      oauthProfile.tokensData = tokensData;
+
+      await this.em.save(oauthProfile);
     }
 
-    return { JWT: this.generateJwt(user) };
+    return { JWT: this.generateJwt(user), user };
   }
 
   findById(id: number): Promise<UserEntity> {

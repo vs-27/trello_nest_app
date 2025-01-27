@@ -10,14 +10,14 @@ export class GoogleStrategy {
     try {
       const tokensData = await this.getTokensData(authCode);
       const profile = await this.getUserProfile(tokensData.access_token);
-  
+
       return { tokensData, profile };
     } catch (e) {
       console.error(e);
       return null;
     }
   }
-  
+
   async getTokensData(authCode: string): Promise<any> {
     try {
       const response = await axios.post(this.tokenEndpoint, {
@@ -31,13 +31,13 @@ export class GoogleStrategy {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
       });
-      
+
       return response.data;
     } catch (error) {
       throw new Error(`Failed to retrieve tokens: ${error.message}`);
     }
   }
-  
+
   async getUserProfile(accessToken: string): Promise<any> {
     try {
       const response = await axios.get(this.userInfoEndpoint, {
@@ -45,8 +45,8 @@ export class GoogleStrategy {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      
-      return response.data; // Returns the user's profile information
+
+      return response.data;
     } catch (error) {
       throw new Error(`Failed to retrieve user profile: ${error.message}`);
     }

@@ -2,6 +2,7 @@ import { Controller, Get, Res, Query, Render } from '@nestjs/common';
 import { Response } from 'express';
 import * as querystring from 'querystring';
 import { HttpService } from '@nestjs/axios';
+import { CreateUserDto } from '../../dto/user.dto';
 import { CookieService } from '../../services/cookie.service';
 import { FacebookStrategy } from '../../services/oauth/facebook.strategy';
 import { GoogleStrategy } from '../../services/oauth/google.strategy';
@@ -39,7 +40,13 @@ export class AuthController {
     @Res() res: Response
     ) {
     const { tokensData, profile } = await this.googleStrategy.processAuthCode(code);
-    const { JWT } = await this.userService.processOauth(tokensData, profile);
+
+    const dto = new CreateUserDto();
+    dto.email = profile.email;
+    dto.firstName = profile.given_name;
+    dto.lastName = profile.family_name;
+
+    const { JWT } = await this.userService.processOauth(dto, { tokensData, profile });
 
     this.cookieService.setCookie(res, 'APP_JWT', JWT);
 
@@ -71,7 +78,12 @@ export class AuthController {
     ) {
     const { tokensData, profile } = await this.facebookStrategy.processAuthCode(code);
 
-    const { JWT } = await this.userService.processOauth(tokensData, profile);
+    const dto = new CreateUserDto();
+    dto.email = profile.email;
+    dto.firstName = profile.first_name;
+    dto.lastName = profile.last_name;
+
+    const { JWT } = await this.userService.processOauth(dto, { tokensData, profile });
 
     this.cookieService.setCookie(res, 'APP_JWT', JWT);
 
