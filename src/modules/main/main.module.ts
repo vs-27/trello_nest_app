@@ -13,6 +13,7 @@ import { CookieService } from './services/cookie.service';
 import { HashService } from './services/hash.service';
 import { FacebookStrategy } from './services/oauth/facebook.strategy';
 import { GoogleStrategy } from './services/oauth/google.strategy';
+import { TwitterStrategy } from './services/oauth/twitter.strategy';
 import { RedisStoreService } from './services/redis-store.service';
 import { UserService } from './services/user.service';
 import { Module } from '@nestjs/common';
@@ -45,6 +46,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     AuthGuard,
     GoogleStrategy,
     FacebookStrategy,
+    TwitterStrategy,
     HashService,
     CookieService,
   ],

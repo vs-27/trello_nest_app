@@ -6,6 +6,7 @@ import { CreateUserDto } from '../../dto/user.dto';
 import { CookieService } from '../../services/cookie.service';
 import { FacebookStrategy } from '../../services/oauth/facebook.strategy';
 import { GoogleStrategy } from '../../services/oauth/google.strategy';
+import { TwitterStrategy } from '../../services/oauth/twitter.strategy';
 import { UserService } from '../../services/user.service';
 
 @Controller('auth')
@@ -14,6 +15,7 @@ export class AuthController {
     private readonly httpService: HttpService,
     private readonly googleStrategy: GoogleStrategy,
     private readonly facebookStrategy: FacebookStrategy,
+    private readonly twitterStrategy: TwitterStrategy,
     private readonly userService: UserService,
     private readonly cookieService: CookieService,
   ) {}
@@ -29,6 +31,9 @@ export class AuthController {
         },
         facebook: {
           url: this.getFacebokAuthUrl(),
+        },
+        twitter: {
+          url: this.getTwitterAuthUrl(),
         }
       }
     };
@@ -106,5 +111,49 @@ export class AuthController {
     });
 
     return `${facebookAuthUrl}?${queryParams}`;
+  }
+
+
+
+  @Get('twitter/redirect')
+  async twitterAuthRedirect(
+    @Query('code') code: string,
+    @Query('state') state: string,
+    @Res() res: Response
+  ) {
+    const { tokensData, profile } = await this.twitterStrategy.processAuthCode(code, state);
+
+    console.log(profile);
+    console.log(tokensData);
+
+    const dto = new CreateUserDto();
+    dto.email = profile.email;
+    dto.firstName = profile.given_name;
+    dto.lastName = profile.family_name;
+
+    const { JWT } = await this.userService.processOauth(dto, { tokensData, profile });
+
+    this.cookieService.setCookie(res, 'APP_JWT', JWT);
+
+    res.redirect('/auth/login');//todo: change that redirect to some dashboard page when will be created
+  }
+
+  private getTwitterAuthUrl(): string {
+    const clientId = process.env.OAUTH_TWITTER_CLIENT_ID;
+    const redirectUri = process.env.OAUTH_TWITTER_REDIRECT_URL;
+
+    const twitterAuthUrl = 'https://twitter.com/i/oauth2/authorize';
+
+    const queryParams = querystring.stringify({
+      response_type: 'code',
+      client_id: clientId,
+      redirect_uri: redirectUri,
+      scope: 'tweet.read users.read offline.access',
+      state: 'your-unique-state',
+      code_challenge: 'your-code-challenge',
+      code_challenge_method: 'plain',
+    });
+
+    return `${twitterAuthUrl}?${queryParams}`;
   }
 }
