@@ -25,12 +25,12 @@ export class AuthController {
   getLoginPage(@Res() res: Response) {
     return {
       title: 'Login page!',
-      ouath: {
+      oauth: {
         google: {
           url: this.getGoogleAuthUrl(),
         },
         facebook: {
-          url: this.getFacebokAuthUrl(),
+          url: this.getFacebookAuthUrl(),
         },
         twitter: {
           url: this.getTwitterAuthUrl(),
@@ -95,7 +95,7 @@ export class AuthController {
     res.redirect('/auth/login');//todo: change that redirect to some dashboard page when will be created
   }
 
-  private getFacebokAuthUrl(): string {
+  private getFacebookAuthUrl(): string {
     const clientId = process.env.OAUTH_FACEBOOK_CLIENT_ID;
     const redirectUri = process.env.OAUTH_FACEBOOK_REDIRECT_URL;
 
