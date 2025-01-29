@@ -1,8 +1,9 @@
 import {
   Entity,
   PrimaryGeneratedColumn,
-  Column, ManyToOne,
+  Column, ManyToOne, OneToMany,
 } from 'typeorm';
+import { ColumnEntity } from './column.entity';
 import { UserEntity } from './user.entity';
 
 @Entity('boards')
@@ -27,4 +28,7 @@ export class BoardEntity {
 
   @ManyToOne(() => UserEntity, (user) => user.boards)
   createdBy: UserEntity;
+
+  @OneToMany(() => ColumnEntity, (column) => column.boards)
+  columns: ColumnEntity;
 }
