@@ -5,8 +5,9 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  BeforeInsert, OneToMany,
+  BeforeInsert, OneToMany, JoinTable,
 } from 'typeorm';
+import { BoardEntity } from './board.entity';
 import { UserOauthEntity } from './user-oauth.entity';
 
 @Entity('users')
@@ -34,7 +35,7 @@ export class UserEntity {
 
   @UpdateDateColumn({ type: 'timestamp', precision: 0 })
   updatedAt: Date;
-  
+
   @OneToMany(() => UserOauthEntity, (userOauth) => userOauth.user, {
     cascade: true,
   })
@@ -44,4 +45,8 @@ export class UserEntity {
   async hashPassword() {
     this.password = await hash(this.password, 10);
   }
+
+  @OneToMany(() => BoardEntity, (board) => board.createdBy, { eager: true })
+  @JoinTable()
+  boards: BoardEntity[];
 }
