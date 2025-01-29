@@ -16,4 +16,9 @@ export class BoardService {
     Object.assign(newBoard, createBoardDto);
     return await this.boardRepository.save(newBoard);
   }
+
+  async deleteBoard(id: number): Promise<boolean> {
+    const result = await this.boardRepository.delete(id);
+    return result.affected !== 0;
+  }
 }

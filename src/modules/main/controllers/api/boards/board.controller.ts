@@ -25,4 +25,9 @@ export class BoardController {
     createBoardDto.createdBy = user;
     return this.boardService.createBoard(createBoardDto);
   }
+
+  @Delete(':id')
+  async deleteBoard(@Param('id') id: number): Promise<boolean> {
+    return this.boardService.deleteBoard(id);
+  }
 }
