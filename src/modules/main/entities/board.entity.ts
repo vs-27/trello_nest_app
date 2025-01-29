@@ -29,6 +29,6 @@ export class BoardEntity {
   @ManyToOne(() => UserEntity, (user) => user.boards)
   createdBy: UserEntity;
 
-  @OneToMany(() => ColumnEntity, (column) => column.boards)
+  @OneToMany(() => ColumnEntity, (column) => column.board)
   columns: ColumnEntity;
 }
