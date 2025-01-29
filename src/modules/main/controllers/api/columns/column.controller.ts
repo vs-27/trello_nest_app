@@ -1,6 +1,6 @@
 import {
   Body,
-  Controller,
+  Controller, Delete, Param,
   Post,
   UseGuards,
 } from '@nestjs/common';
@@ -29,5 +29,10 @@ export class ColumnController {
     @User() user: UserEntity,
   ): Promise<ColumnEntity> {
     return await this.columnService.createColumn(user, createColumnDto);
+  }
+
+  @Delete(':id')
+  async deleteColumn(@Param('id') id: number): Promise<boolean> {
+    return this.columnService.deleteColumn(id);
   }
 }

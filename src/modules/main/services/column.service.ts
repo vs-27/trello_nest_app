@@ -45,4 +45,9 @@ export class ColumnService {
 
     return await this.columnRepository.save(column);
   }
+
+  async deleteColumn(id: number): Promise<boolean> {
+    const result = await this.columnRepository.delete(id);
+    return result.affected !== 0;
+  }
 }
