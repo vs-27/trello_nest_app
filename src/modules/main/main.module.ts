@@ -5,15 +5,18 @@ import { CommandModule } from 'nestjs-command';
 import { AppDataSource } from '../../../db/data-source';
 import { BoardController } from './controllers/api/boards/board.controller';
 import { CartController } from './controllers/api/cart.controller';
+import { ColumnController } from './controllers/api/columns/column.controller';
 import { UserController } from './controllers/api/user.controller';
 import { AuthController } from './controllers/render-views/auth.controller';
 import { DashboardController } from './controllers/render-views/dashboard.controller';
 import { BoardEntity } from './entities/board.entity';
+import { ColumnEntity } from './entities/column.entity';
 import { UserEntity } from './entities/user.entity';
 import { AuthGuard } from './guards/auth.guard';
 import { AuthMiddleware } from './middlewares/auth.middleware';
 import { BoardService } from './services/board.service';
 import { CartService } from './services/cart.service';
+import { ColumnService } from './services/column.service';
 import { CookieService } from './services/cookie.service';
 import { HashService } from './services/hash.service';
 import { FacebookStrategy } from './services/oauth/facebook.strategy';
@@ -30,7 +33,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     TypeOrmModule.forRoot(AppDataSource.options), MainModule,
     TypeOrmModule.forFeature([
       UserEntity,
-      BoardEntity
+      BoardEntity,
+      ColumnEntity
     ]),
     RedisModule.forRoot({
       config: {
@@ -45,7 +49,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     CartController,
     AuthController,
     DashboardController,
-    BoardController
+    BoardController,
+    ColumnController
   ],
   providers: [
     UserService,
@@ -58,6 +63,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     HashService,
     CookieService,
     BoardService,
+    ColumnService
   ],
   exports: [UserService, CartService],
 })
