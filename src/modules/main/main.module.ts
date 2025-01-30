@@ -6,11 +6,13 @@ import { AppDataSource } from '../../../db/data-source';
 import { BoardController } from './controllers/api/boards/board.controller';
 import { CartController } from './controllers/api/cart.controller';
 import { ColumnController } from './controllers/api/columns/column.controller';
+import { TaskController } from './controllers/api/task.controller';
 import { UserController } from './controllers/api/user.controller';
 import { AuthController } from './controllers/render-views/auth.controller';
 import { DashboardController } from './controllers/render-views/dashboard.controller';
 import { BoardEntity } from './entities/board.entity';
 import { ColumnEntity } from './entities/column.entity';
+import { TaskEntity } from './entities/task.entity';
 import { UserEntity } from './entities/user.entity';
 import { AuthGuard } from './guards/auth.guard';
 import { AuthMiddleware } from './middlewares/auth.middleware';
@@ -23,6 +25,7 @@ import { FacebookStrategy } from './services/oauth/facebook.strategy';
 import { GoogleStrategy } from './services/oauth/google.strategy';
 import { TwitterStrategy } from './services/oauth/twitter.strategy';
 import { RedisStoreService } from './services/redis-store.service';
+import { TaskService } from './services/task.service';
 import { UserService } from './services/user.service';
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -34,7 +37,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     TypeOrmModule.forFeature([
       UserEntity,
       BoardEntity,
-      ColumnEntity
+      ColumnEntity,
+      TaskEntity
     ]),
     RedisModule.forRoot({
       config: {
@@ -50,7 +54,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     AuthController,
     DashboardController,
     BoardController,
-    ColumnController
+    ColumnController,
+    TaskController
   ],
   providers: [
     UserService,
@@ -63,7 +68,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     HashService,
     CookieService,
     BoardService,
-    ColumnService
+    ColumnService,
+    TaskService
   ],
   exports: [UserService, CartService],
 })
