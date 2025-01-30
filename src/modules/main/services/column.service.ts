@@ -25,7 +25,6 @@ export class ColumnService {
       relations: ['createdBy']
     });
 
-    console.log(board);
     if (!board) {
       throw new HttpException(
         `Board with ID ${createColumnDto.boardId} not found`,
@@ -38,7 +37,7 @@ export class ColumnService {
     }
 
     let column = new ColumnEntity();
-    column.boards = board;
+    column.board = board;
 
     delete createColumnDto.boardId;
     column = Object.assign(column, createColumnDto);
