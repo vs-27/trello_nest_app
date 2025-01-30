@@ -44,4 +44,9 @@ export class TaskService {
 
     return this.taskRepository.save(task);
   }
+
+  async deleteTask(id: number): Promise<boolean> {
+    const result = await this.taskRepository.delete(id);
+    return result.affected !== 0;
+  }
 }

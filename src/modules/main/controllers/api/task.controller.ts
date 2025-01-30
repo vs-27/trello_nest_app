@@ -1,6 +1,6 @@
 import {
   Body,
-  Controller,
+  Controller, Delete, Param,
   Post,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -27,5 +27,10 @@ export class TaskController {
   ): Promise<{ task: TaskEntity }> {
     const task = await this.taskService.createTask(user, createTaskDto);
     return { task };
+  }
+
+  @Delete(':id')
+  async deleteTask(@Param('id') id: number): Promise<boolean> {
+    return this.taskService.deleteTask(id);
   }
 }
