@@ -7,6 +7,7 @@ import { BoardController } from './controllers/api/boards/board.controller';
 import { CartController } from './controllers/api/cart.controller';
 import { ColumnController } from './controllers/api/columns/column.controller';
 import { TaskController } from './controllers/api/task.controller';
+import { UploadController } from './controllers/api/upload.controller';
 import { UserController } from './controllers/api/user.controller';
 import { AuthController } from './controllers/render-views/auth.controller';
 import { DashboardController } from './controllers/render-views/dashboard.controller';
@@ -55,7 +56,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     DashboardController,
     BoardController,
     ColumnController,
-    TaskController
+    TaskController,
+    UploadController
   ],
   providers: [
     UserService,
