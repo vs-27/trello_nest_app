@@ -24,9 +24,6 @@ export class TaskEntity {
   link: string;
 
   @Column()
-  files: string;
-
-  @Column()
   estimation: string;
 
   @CreateDateColumn()

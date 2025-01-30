@@ -14,9 +14,6 @@ export class CreateTaskDto {
   link: string;
 
   @IsString()
-  files: string;
-
-  @IsString()
   estimation: string;
 
   @IsDate()
