@@ -13,6 +13,7 @@ import { AuthController } from './controllers/render-views/auth.controller';
 import { DashboardController } from './controllers/render-views/dashboard.controller';
 import { BoardEntity } from './entities/board.entity';
 import { ColumnEntity } from './entities/column.entity';
+import { FileEntity } from './entities/file.entity';
 import { TaskEntity } from './entities/task.entity';
 import { UserEntity } from './entities/user.entity';
 import { AuthGuard } from './guards/auth.guard';
@@ -27,6 +28,7 @@ import { GoogleStrategy } from './services/oauth/google.strategy';
 import { TwitterStrategy } from './services/oauth/twitter.strategy';
 import { RedisStoreService } from './services/redis-store.service';
 import { TaskService } from './services/task.service';
+import { UploadService } from './services/upload.service';
 import { UserService } from './services/user.service';
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -39,7 +41,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       UserEntity,
       BoardEntity,
       ColumnEntity,
-      TaskEntity
+      TaskEntity,
+      FileEntity
     ]),
     RedisModule.forRoot({
       config: {
@@ -71,7 +74,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     CookieService,
     BoardService,
     ColumnService,
-    TaskService
+    TaskService,
+    UploadService
   ],
   exports: [UserService, CartService],
 })

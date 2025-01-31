@@ -1,10 +1,11 @@
 import {
   Column,
   CreateDateColumn,
-  Entity, ManyToOne,
+  Entity, ManyToOne, OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ColumnEntity } from './column.entity';
+import { FileEntity } from './file.entity';
 
 @Entity('tasks')
 export class TaskEntity {
@@ -34,4 +35,7 @@ export class TaskEntity {
 
   @ManyToOne(() => ColumnEntity, (column) => column.tasks)
   column: ColumnEntity;
+
+  @OneToMany(() => FileEntity, (file) => file.task)
+  files: FileEntity[];
 }
