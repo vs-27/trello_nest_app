@@ -7,7 +7,6 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { Message } from '../types/Message';
-import { ClientToServerListen, ServerToClientListen } from '../types/WebSocketListen';
 import { ChatService } from './chat.service';
 
 @WebSocketGateway({
@@ -18,11 +17,12 @@ import { ChatService } from './chat.service';
 })
 export class  ChatGateway implements OnGatewayConnection, OnGatewayDisconnect{
   constructor(private chatService: ChatService) {}
+  @WebSocketServer()
+  server: Server;
 
-  @WebSocketServer() server: Server<ClientToServerListen, ServerToClientListen>;
-  @SubscribeMessage('message')
+  @SubscribeMessage('chat_message')
   handleMessage( @MessageBody() message: Message ): void {
-    this.server.emit('message', message)
+    this.server.emit('chat_message', message)
   }
 
   handleConnection(@ConnectedSocket() client: Socket): any {
