@@ -20,6 +20,8 @@ import { AuthGuard } from './guards/auth.guard';
 import { AuthMiddleware } from './middlewares/auth.middleware';
 import { BoardService } from './services/board.service';
 import { CartService } from './services/cart.service';
+import { ChatGateway } from './services/chat.gateway';
+import { ChatService } from './services/chat.service';
 import { ColumnService } from './services/column.service';
 import { CookieService } from './services/cookie.service';
 import { HashService } from './services/hash.service';
@@ -75,7 +77,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     BoardService,
     ColumnService,
     TaskService,
-    UploadService
+    UploadService,
+    ChatGateway,
+    ChatService
   ],
   exports: [UserService, CartService],
 })
