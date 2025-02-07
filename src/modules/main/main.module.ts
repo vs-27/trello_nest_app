@@ -12,6 +12,7 @@ import { UserController } from './controllers/api/user.controller';
 import { AuthController } from './controllers/render-views/auth.controller';
 import { DashboardController } from './controllers/render-views/dashboard.controller';
 import { BoardEntity } from './entities/board.entity';
+import { BoardMessageEntity } from './entities/boardMessage.entity';
 import { ColumnEntity } from './entities/column.entity';
 import { FileEntity } from './entities/file.entity';
 import { TaskEntity } from './entities/task.entity';
@@ -44,7 +45,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       BoardEntity,
       ColumnEntity,
       TaskEntity,
-      FileEntity
+      FileEntity,
+      BoardMessageEntity
     ]),
     RedisModule.forRoot({
       config: {

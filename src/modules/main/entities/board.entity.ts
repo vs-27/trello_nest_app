@@ -3,6 +3,7 @@ import {
   PrimaryGeneratedColumn,
   Column, ManyToOne, OneToMany,
 } from 'typeorm';
+import { BoardMessageEntity } from './boardMessage.entity';
 import { ColumnEntity } from './column.entity';
 import { UserEntity } from './user.entity';
 
@@ -31,4 +32,7 @@ export class BoardEntity {
 
   @OneToMany(() => ColumnEntity, (column) => column.board)
   columns: ColumnEntity;
+
+  @OneToMany(() => BoardMessageEntity, (message) => message.board)
+  messages: BoardMessageEntity[];
 }

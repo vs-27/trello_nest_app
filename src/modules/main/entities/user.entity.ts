@@ -8,6 +8,7 @@ import {
   BeforeInsert, OneToMany, JoinTable,
 } from 'typeorm';
 import { BoardEntity } from './board.entity';
+import { BoardMessageEntity } from './boardMessage.entity';
 import { UserOauthEntity } from './user-oauth.entity';
 
 @Entity('users')
@@ -49,4 +50,7 @@ export class UserEntity {
   @OneToMany(() => BoardEntity, (board) => board.createdBy, { eager: true })
   @JoinTable()
   boards: BoardEntity[];
+
+  @OneToMany(() => BoardMessageEntity, (message) => message.user, { eager: true })
+  messages: BoardMessageEntity[];
 }
