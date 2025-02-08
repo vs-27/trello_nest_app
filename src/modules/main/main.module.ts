@@ -4,6 +4,7 @@ import { PassportModule } from '@nestjs/passport';
 import { CommandModule } from 'nestjs-command';
 import { AppDataSource } from '../../../db/data-source';
 import { BoardController } from './controllers/api/boards/board.controller';
+import { BoardMessageController } from './controllers/api/boards/boardMessage.controller';
 import { CartController } from './controllers/api/cart.controller';
 import { ColumnController } from './controllers/api/columns/column.controller';
 import { TaskController } from './controllers/api/task.controller';
@@ -64,7 +65,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     BoardController,
     ColumnController,
     TaskController,
-    UploadController
+    UploadController,
+    BoardMessageController
   ],
   providers: [
     UserService,
