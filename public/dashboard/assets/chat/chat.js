@@ -1,17 +1,25 @@
-const socket = io('http://localhost:3000/chat');
 const form = document.querySelector('.trello-chat-form');
 const input = document.querySelector('.trello-chat-input');
 const nameBlock = document.querySelector('.trello-chat-name');
 
+const socket = io('http://localhost:3000/chat', {
+  auth: { token: localStorage.getItem('jwt_token') }
+});
+
 const userName = prompt('Your name:');
+const boardId = 2;
 nameBlock.innerHTML = `${userName}`;
+
+socket.emit('join_board', { boardId });
+
+const token = localStorage.getItem('token');
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
   e.stopPropagation();
   
   if (input.value) {
-    socket.emit('chat_message', {message: input.value, name: userName});
+    socket.emit('chat_message', { content: input.value, boardId });//todo: replace boardId by current page board id
     input.value = ''
   }
 });
