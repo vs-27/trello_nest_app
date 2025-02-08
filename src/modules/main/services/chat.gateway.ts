@@ -1,7 +1,7 @@
 import { UseGuards } from '@nestjs/common';
 import {
   ConnectedSocket,
-  MessageBody, OnGatewayConnection, OnGatewayDisconnect,
+  MessageBody,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer
@@ -24,16 +24,15 @@ export class  ChatGateway {
 
   @UseGuards(WsAuthGuard)
   @SubscribeMessage('chat_message')
-  handleMessage( @MessageBody() message: Message ): void {
-    this.server.emit('chat_message', message)
-  }
+  async handleMessage(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() data: { content: string; boardId: number; },
+  ){
 
-  handleConnection(@ConnectedSocket() client: Socket): any {
-    if(!this.chatService.getClientId(client.id)) this.chatService.addClient(client)
-  }
+    const user = client.data.user;
+    if (!user) throw new Error('User not authenticated');
 
-  handleDisconnect(@ConnectedSocket() client: Socket): any {
-    this.chatService.removeClient(client.id);
-    client.disconnect(true)
+    const [message, board] = await this.boardMessageService.sendMessage(user, data.content, data.boardId);
+    this.server.to(`board_${data.boardId}`).emit('chat_message', {name: user.username, content: message.content});
   }
 }

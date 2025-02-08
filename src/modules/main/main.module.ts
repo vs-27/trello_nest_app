@@ -1,5 +1,6 @@
 import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { HttpModule } from '@nestjs/axios';
+import { JwtService } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { CommandModule } from 'nestjs-command';
 import { AppDataSource } from '../../../db/data-source';
@@ -21,6 +22,7 @@ import { UserEntity } from './entities/user.entity';
 import { AuthGuard } from './guards/auth.guard';
 import { AuthMiddleware } from './middlewares/auth.middleware';
 import { BoardService } from './services/board.service';
+import { BoardMessageService } from './services/boardMessage.service';
 import { CartService } from './services/cart.service';
 import { ChatGateway } from './services/chat.gateway';
 import { ChatService } from './services/chat.service';
@@ -36,6 +38,7 @@ import { UploadService } from './services/upload.service';
 import { UserService } from './services/user.service';
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+
 
 @Module({
   imports: [
@@ -83,9 +86,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     TaskService,
     UploadService,
     ChatGateway,
-    ChatService
+    ChatService,
+    BoardMessageService,
+    JwtService
   ],
-  exports: [UserService, CartService],
+  exports: [UserService, CartService, JwtService],
 })
 export class MainModule {  configure(consumer: MiddlewareConsumer) {
   consumer.apply(AuthMiddleware).forRoutes({
