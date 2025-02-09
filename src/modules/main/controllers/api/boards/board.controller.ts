@@ -1,5 +1,6 @@
-import { Body, Controller, Delete, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Render, Res, UseGuards } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Response } from 'express';
 import { Repository } from 'typeorm';
 import { User } from '../../../decorators/user.decorator';
 import { CreateBoardDto } from '../../../dto/board.dto';
@@ -8,7 +9,7 @@ import { UserEntity } from '../../../entities/user.entity';
 import { AuthGuard } from '../../../guards/auth.guard';
 import { BoardService } from '../../../services/board.service';
 
-@Controller('boards')
+@Controller('')
 export class BoardController {
   constructor(
     private readonly boardService: BoardService,
@@ -16,7 +17,7 @@ export class BoardController {
     private readonly boardRepository: Repository<BoardEntity>,
   ) {}
 
-  @Post()
+  @Post('boards')
   @UseGuards(AuthGuard)
   async createBoard(
     @User() user: UserEntity,
@@ -26,7 +27,14 @@ export class BoardController {
     return this.boardService.createBoard(createBoardDto);
   }
 
-  @Delete(':id')
+  @Get('dashboard/boards')
+  @Render('main/views/pages/boards.twig')
+  async getAllBoards(@Res() res: Response) {
+    const boards = await this.boardService.getAllBoards();
+    return { boards };
+  }
+
+  @Delete('boards:id')
   async deleteBoard(@Param('id') id: number): Promise<boolean> {
     return this.boardService.deleteBoard(id);
   }

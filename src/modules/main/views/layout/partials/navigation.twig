@@ -1,10 +1,9 @@
-<%
-const navItems = [
-    { name: 'Boards', url: '/' },
+{% set navItems = [
+    { name: 'Boards', url: '/dashboard/boards' },
     { name: 'Products', url: '/products' },
-    { name: 'Cart', url: '/cart' },
-];
-%>
+    { name: 'Cart', url: '/cart' }
+] %}
+
 
 <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-radius-lg fixed-start ms-2  bg-white my-2"
        id="sidenav-main">
@@ -22,22 +21,14 @@ const navItems = [
     <hr class="horizontal dark mt-0 mb-2">
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
-            <% navItems.forEach(item => { %>
+            {% for item in navItems %}
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="<%= item.url %>">
+                    <a class="nav-link text-dark" href="{{ item.url }}">
                         <i class="material-symbols-rounded opacity-5">dashboard</i>
-                        <span class="nav-link-text ms-1"><%= item.name %></span>
+                        <span class="nav-link-text ms-1">{{ item.name }}</span>
                     </a>
                 </li>
-            <% }) %>
-
-<!--            <li class="nav-item">-->
-<!--                <a class="nav-link active bg-gradient-dark text-white"-->
-<!--                   href="../pages/dashboard.html">-->
-<!--                    <i class="material-symbols-rounded opacity-5">dashboard</i>-->
-<!--                    <span class="nav-link-text ms-1">Dashboard</span>-->
-<!--                </a>-->
-<!--            </li>-->
+            {% endfor %}
         </ul>
     </div>
     <div class="sidenav-footer position-absolute w-100 bottom-0 ">

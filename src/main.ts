@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
-import * as ejs from 'ejs';
 import * as express from 'express';
 import { MainModule } from './modules/main/main.module';
 
@@ -10,8 +9,8 @@ const PORT = process.env.PORT || 3000;
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(MainModule);
 
-  app.setBaseViewsDir(join(process.cwd(), 'src/modules'));
-  app.setViewEngine('ejs');
+  app.setBaseViewsDir(join(process.cwd(), 'src/modules')); // Set views directory
+  app.setViewEngine('twig');
 
   app.useStaticAssets(join(process.cwd(), 'public'));
 

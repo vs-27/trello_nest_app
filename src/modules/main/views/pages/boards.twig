@@ -1,0 +1,35 @@
+{% extends "../layout/dashboard.twig" %}
+
+{% block content %}
+    <link rel="stylesheet" href="/dashboard/assets/board/boards.css">
+    <script>
+      function openModal() {
+        document.getElementById('modal').style.display = 'flex';
+      }
+
+      function closeModal() {
+        document.getElementById('modal').style.display = 'none';
+      }
+    </script>
+
+    <h1>Boards</h1>
+
+    <button onclick="openModal()">Create New Board</button>
+
+    <ul>
+        {% for board in boards %}
+            <li>{{ board.name }}</li>
+        {% endfor %}
+    </ul>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h2>Create New Board</h2>
+            <form action="/boards/create" method="POST">
+                <input type="text" name="name" placeholder="Board Name" required>
+                <button type="submit">Create</button>
+                <button type="button" onclick="closeModal()">Close</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
