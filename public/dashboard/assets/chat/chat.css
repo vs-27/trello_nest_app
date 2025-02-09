@@ -41,5 +41,12 @@
   padding: 8px;
   border-radius: 5px;
 }
+.trello-chat-name {
+  padding: 5px;
+  background-color: #b0d9fb;
+  text-align: center;
+  font-weight: bold;
+  color: black;
+}
 .trello-message:nth-child(odd) { background-color: #e3f2fd; }
 .trello-message:nth-child(even) { background-color: #ffebee; }

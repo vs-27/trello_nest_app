@@ -1,8 +1,7 @@
-import { Controller, Post, Body, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { BoardMessageEntity } from '../../../entities/boardMessage.entity';
-import { WsAuthGuard } from '../../../guards/ws-auth.guard';
 import { BoardMessageService } from '../../../services/boardMessage.service';
 
 @Controller('messages')
@@ -11,17 +10,45 @@ export class BoardMessageController {
     private readonly boardMessageService: BoardMessageService,
     @InjectRepository(BoardMessageEntity)
     private readonly boardMessageRepository: Repository<BoardMessageEntity>,
-    ) {}
-
-  //todo: replace by get board messages
-  @Post()
-  @UseGuards(WsAuthGuard)
-  async sendMessage(
-    @Request() req,
-    @Body('content') content: string,
-    @Body('boardId') boardId: number
   ) {
-    const user = req.user;
-    return this.boardMessageService.sendMessage(user, content, boardId);
+  }
+
+  @Get()
+  async getMessages(
+    @Query('boardId') boardId: number,
+    @Query('userId') userId: number
+  ): Promise<{ message: any[] }> {
+
+    const messages = await this.boardMessageRepository.find(
+      {
+        where: { board: { id: boardId }, user: { id: userId } },
+        relations: [ 'board', 'user' ],
+        select: {
+          id: true,
+          content: true,
+          createdAt: true,
+          board: {
+            id: true,
+          },
+          user: {
+            id: true,
+            username: true,
+          },
+        },
+        loadRelationIds: {
+          relations: [ 'user' ],
+        },
+      });
+
+    return {
+      message: messages.map(({ id, content, createdAt, board, user }) => ({
+        id,
+        content,
+        name: user.username,
+        createdAt,
+        board: { id: board.id },
+        user: { id: user.id },
+      })),
+    }
   }
 }

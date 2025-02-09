@@ -2,28 +2,61 @@ const form = document.querySelector('.trello-chat-form');
 const input = document.querySelector('.trello-chat-input');
 const nameBlock = document.querySelector('.trello-chat-name');
 
-const socket = io('http://localhost:3000/chat', {
-  auth: { token: localStorage.getItem('jwt_token') }
-});
+const appendMessage = (data, insertInBegin = false) => {
+  const html = `<div class="trello-message">${data.name}:  ${data.content}</div>`;
 
-const userName = prompt('Your name:');
-const boardId = 2;
-nameBlock.innerHTML = `${userName}`;
-
-socket.emit('join_board', { boardId });
-
-const token = localStorage.getItem('token');
-
-form.addEventListener('submit', (e) => {
-  e.preventDefault();
-  e.stopPropagation();
-  
-  if (input.value) {
-    socket.emit('chat_message', { content: input.value, boardId });//todo: replace boardId by current page board id
-    input.value = ''
+  if (insertInBegin) {
+    $('.trello-chat-messages').prepend(html);
+  } else {
+    $('.trello-chat-messages').append(html);
   }
-});
+};
 
-socket.on('chat_message', (data) => {
-  $('.trello-chat-messages').append(`<div class="trello-message">${data.name}:  ${data.message}</div>`);
+const fetchMessages = async (boardId, userId) => {
+  try {
+    const response = await fetch(`http://localhost:3000/messages?boardId=${boardId}&userId=${userId}`);
+    if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`);
+
+    const data = await response.json();
+
+    return data.message || [];
+  } catch (error) {
+    return [];
+  }
+};
+
+const initWs = (boardId) => {
+  const socket = io('http://localhost:3000/chat', {
+    auth: { token: localStorage.getItem('jwt_token') }
+  });
+
+  const userName = prompt('Your name:');
+  nameBlock.innerHTML = `${userName}`;
+  
+  socket.emit('join_board', { boardId });
+  
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (input.value.trim()) {
+      socket.emit('chat_message', { content: input.value, boardId, name: userName });
+      appendMessage({ name: userName, content: input.value });
+      input.value = '';
+    }
+  });
+  
+  socket.on('chat_message', (data) => {
+    appendMessage(data);
+  });
+};
+
+$(document).ready(async () => {
+  const boardId = 2; // TODO: Replace with the current board ID dynamically
+  const userId = 10; // TODO: Replace with the current user ID dynamically
+  
+  initWs(boardId);
+
+  const messages = await fetchMessages(boardId, userId);
+  messages.reverse().forEach(msg => appendMessage(msg, true));
 });
