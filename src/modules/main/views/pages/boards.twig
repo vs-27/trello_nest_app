@@ -37,15 +37,24 @@
             {% endfor %}
         </ul>
 
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <h2>Create New Board</h2>
-            <form action="/boards/create" method="POST">
-                <input type="text" name="name" placeholder="Board Name" required>
-                <button type="submit">Create</button>
-                <button type="button" onclick="closeModal()">Close</button>
-            </form>
+        <button onclick="openModal()">Create New Board</button>
+
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <h2>Create New Board</h2>
+                <form action="/boards" method="POST">
+                    <input type="text" name="name" placeholder="Board Name" required>
+                    <input type="text" name="description" placeholder="Board Description" required>
+                    <input type="text" name="Color" placeholder="Board Color" required>
+                    <input type="text" name="Font" placeholder="Board Font" required>
+                    <input type="text" name="BackgroundColor" placeholder="Board backgroundColor" required>
+                    <div class="modal-btn">
+                        <button type="submit">Create</button>
+                        <button type="button" onclick="closeModal()">Close</button>
+                    </div>
+                </form>
+
+            </div>
         </div>
     </div>
-
 {% endblock %}
