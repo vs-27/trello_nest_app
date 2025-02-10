@@ -1,0 +1,6 @@
+{
+  "watch": ["src"],
+  "ext": "ts,twig",
+  "ignore": ["node_modules", "dist"],
+  "exec": "nest start --watch"
+}

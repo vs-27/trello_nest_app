@@ -11,6 +11,7 @@ async function bootstrap() {
 
   app.setBaseViewsDir(join(process.cwd(), 'src/modules')); // Set views directory
   app.setViewEngine('twig');
+  app.set('view cache', false);
 
   app.useStaticAssets(join(process.cwd(), 'public'));
 
