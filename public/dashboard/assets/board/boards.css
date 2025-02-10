@@ -1,16 +1,10 @@
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f4f4f4;
-  text-align: center;
-}
-
 h1 {
   background-color: #007bff;
   color: white;
   padding: 20px;
   margin: 0;
+  text-align: center;
+  border-radius: 10px;
 }
 
 button {
@@ -22,25 +16,58 @@ button {
   font-size: 16px;
   cursor: pointer;
   border-radius: 5px;
+  display: flex;
+}
+
+.boards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.boards-container .trello-chat-container {
+  margin-top: 20px;
+}
+.boards-container button {
+  height: 45px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.trello-chat-form button {
+  margin: 0;
+  border-radius: 0;
+  height: auto;
+}
+.trello-chat-form button:hover {
+  background-color: #005ddd;
+}
+.trello-chat-messages {
+  height: 280px;
+}
+.container-fluid button .trello-chat-container {
+  flex: 1;
+  min-width: 100px;
 }
 
 button:hover {
   background-color: #218838;
 }
 
-ul {
+.boards{
   list-style: none;
   padding: 0;
-  width: 50%;
-  margin: 20px auto;
+  margin-top: 20px;
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  flex: 1;
 }
 
-li {
+.boards li {
   background: lightgray;
-  margin: 10px 0;
   padding: 15px;
   border-radius: 10px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
 
 .modal {
@@ -70,8 +97,22 @@ li {
   margin: 10px 0;
   border: 1px solid #ddd;
   border-radius: 5px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+.modal-content input:not(:placeholder-shown) {
+  background-color: rgb(232, 240, 254);
+  border-color: #28a745;
 }
 
 .modal-content button {
   margin: 5px;
+  text-align: center;
+}
+
+.modal-btn {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  flex: 1;
+  margin-left: 20px;
 }

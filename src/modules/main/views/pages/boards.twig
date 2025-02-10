@@ -1,7 +1,12 @@
 {% extends "../layout/dashboard.twig" %}
 
-{% block content %}
+{% block stylesheets %}
+    {{ parent() }}
     <link rel="stylesheet" href="/dashboard/assets/board/boards.css">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
     <script>
       function openModal() {
         document.getElementById('modal').style.display = 'flex';
@@ -11,16 +16,26 @@
         document.getElementById('modal').style.display = 'none';
       }
     </script>
+{% endblock %}
 
+{% block content %}
     <h1>Boards</h1>
+    <div class="boards-container">
+        {% block chat %}
+            {% include '../layout/partials/chat.twig' %}
+        {% endblock %}
 
-    <button onclick="openModal()">Create New Board</button>
-
-    <ul>
-        {% for board in boards %}
-            <li>{{ board.name }}</li>
-        {% endfor %}
-    </ul>
+        <ul class="boards">
+            {% for board in boards %}
+                <li>
+                    <h6>Name: {{ board.name }}</h6>
+                    <h6>Description: {{ board.description }}</h6>
+                    <h6>Color: {{ board.color }}</h6>
+                    <h6>Font: {{ board.font }}</h6>
+                    <h6>BackgroundColor: {{ board.backgroundColor }}</h6>
+                </li>
+            {% endfor %}
+        </ul>
 
     <div id="modal" class="modal">
         <div class="modal-content">
@@ -32,4 +47,5 @@
             </form>
         </div>
     </div>
+
 {% endblock %}

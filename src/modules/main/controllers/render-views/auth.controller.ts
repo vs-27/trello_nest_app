@@ -21,7 +21,7 @@ export class AuthController {
   ) {}
 
   @Get('login')
-  @Render('main/views/login/login')
+  @Render('main/views/pages/login')
   getLoginPage(@Res() res: Response) {
     return {
       title: 'Login page!',

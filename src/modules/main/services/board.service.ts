@@ -18,7 +18,9 @@ export class BoardService {
   }
 
   async getAllBoards() {
-    return await this.boardRepository.find();
+    return await this.boardRepository.find(
+      {select: ['name', 'description', 'color', 'font', 'backgroundColor']}
+      );
   }
 
   async deleteBoard(id: number): Promise<boolean> {
