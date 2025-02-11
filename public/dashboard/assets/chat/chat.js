@@ -12,6 +12,22 @@ const appendMessage = (data, insertInBegin = false) => {
   }
 };
 
+const fetchUser = async (userId) => {
+  try {
+    const response = await fetch(`http://localhost:3000/api/users/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
+      }
+    });
+    if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`);
+    
+    const data = await response.json();
+    return data.name;
+  } catch (error) {
+    return 'Unknown User';
+  }
+};
+
 const fetchMessages = async (boardId, userId) => {
   try {
     const response = await fetch(`http://localhost:3000/messages?boardId=${boardId}&userId=${userId}`);
@@ -25,12 +41,13 @@ const fetchMessages = async (boardId, userId) => {
   }
 };
 
-const initWs = (boardId) => {
+const initWs = async (boardId, userId) => {
   const socket = io('http://localhost:3000/chat', {
     auth: { token: localStorage.getItem('jwt_token') }
   });
 
-  const userName = prompt('Your name:');
+  const userName = await fetchUser(userId);
+  
   nameBlock.innerHTML = `${userName}`;
   
   socket.emit('join_board', { boardId });
@@ -55,7 +72,8 @@ $(document).ready(async () => {
   const boardId = 2; // TODO: Replace with the current board ID dynamically
   const userId = 10; // TODO: Replace with the current user ID dynamically
   
-  initWs(boardId);
+  
+  await initWs(boardId, userId);
 
   const messages = await fetchMessages(boardId, userId);
   messages.reverse().forEach(msg => appendMessage(msg, true));
