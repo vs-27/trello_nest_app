@@ -103,6 +103,10 @@ export class UserService {
     return { JWT: this.generateJwt(user), user };
   }
 
+  async findUserById(id: number): Promise<UserEntity | null> {
+    return await this.userRepository.findOne({ where: { id } });
+  }
+
   findById(id: number): Promise<UserEntity> {
     return this.userRepository.findOne({
       where: { id },
