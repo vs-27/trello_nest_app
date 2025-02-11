@@ -27,12 +27,15 @@
 
         <ul class="boards">
             {% for board in boards %}
-                <li>
-                    <h6>Name: {{ board.name }}</h6>
-                    <h6>Description: {{ board.description }}</h6>
-                    <h6>Color: {{ board.color }}</h6>
-                    <h6>Font: {{ board.font }}</h6>
-                    <h6>BackgroundColor: {{ board.backgroundColor }}</h6>
+            <li style="background-color: {{ board.backgroundColor }}">
+                    <h6 style="color: {{ board.color }}">Name: {{ board.name }}</h6>
+                    <h6 style="color: {{ board.color }}">Description: {{ board.description }}</h6>
+                    <h6 style="color: {{ board.color }}">Color: {{ board.color }}</h6>
+                    <h6 style="color: {{ board.color }}">Font: {{ board.font }}</h6>
+                    <h6 style="color: {{ board.color }}">BackgroundColor: {{ board.backgroundColor }}</h6>
+                    <a href="/dashboard/boards/{{ board.id }}">
+                        <button>Got to board</button>
+                    </a>
                 </li>
             {% endfor %}
         </ul>
@@ -42,17 +45,45 @@
         <div id="modal" class="modal">
             <div class="modal-content">
                 <h2>Create New Board</h2>
-                <form action="/boards" method="POST">
+                <form method="POST" id="boardForm">
                     <input type="text" name="name" placeholder="Board Name" required>
                     <input type="text" name="description" placeholder="Board Description" required>
-                    <input type="text" name="Color" placeholder="Board Color" required>
-                    <input type="text" name="Font" placeholder="Board Font" required>
-                    <input type="text" name="BackgroundColor" placeholder="Board backgroundColor" required>
+                    <input type="text" name="color" placeholder="Board Color" required>
+                    <input type="text" name="font" placeholder="Board Font" required>
+                    <input type="text" name="backgroundColor" placeholder="Board backgroundColor" required>
                     <div class="modal-btn">
                         <button type="submit">Create</button>
                         <button type="button" onclick="closeModal()">Close</button>
                     </div>
                 </form>
+
+                <script>
+                  document.getElementById('boardForm').addEventListener('submit', async (event) => {
+                    event.preventDefault();
+
+                    const formData = new FormData(event.target);
+                    const data = Object.fromEntries(formData.entries());
+
+                    const token = localStorage.getItem('jwt_token');
+
+                    const response = await fetch('/boards', {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                      },
+                      body: JSON.stringify(data)
+                    });
+
+                    if (response.ok) {
+                      alert('Board created successfully!');
+                      window.location.reload();
+                    } else {
+                      const error = await response.json();
+                      alert(`Error: ${error.message}`);
+                    }
+                  });
+                </script>
 
             </div>
         </div>
