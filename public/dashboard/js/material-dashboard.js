@@ -7,23 +7,29 @@
     if (document.getElementsByClassName('main-content')[0]) {
       var mainpanel = document.querySelector('.main-content');
       var ps = new PerfectScrollbar(mainpanel);
-    };
+    }
 
     if (document.getElementsByClassName('sidenav')[0]) {
       var sidebar = document.querySelector('.sidenav');
       var ps1 = new PerfectScrollbar(sidebar);
-    };
+    }
 
     if (document.getElementsByClassName('navbar-collapse')[0]) {
       var fixedplugin = document.querySelector('.navbar:not(.navbar-expand-lg) .navbar-collapse');
       var ps2 = new PerfectScrollbar(fixedplugin);
-    };
+    }
 
     if (document.getElementsByClassName('fixed-plugin')[0]) {
       var fixedplugin = document.querySelector('.fixed-plugin');
       var ps3 = new PerfectScrollbar(fixedplugin);
-    };
-  };
+    }
+  
+    if (document.getElementsByClassName('.fixed-chat-plugin')[0]) {
+      var fixedchatplugin = document.querySelector('.fixed-chat-plugin');
+      var ps4 = new PerfectScrollbar(fixedchatplugin);
+    }
+    
+  }
 })();
 
 // Verify navbar blur on scroll
@@ -32,10 +38,10 @@ if (document.getElementById('navbarBlur')) {
 }
 
 // initialization of Tooltips
-var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
 var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
   return new bootstrap.Tooltip(tooltipTriggerEl)
-})
+});
 
 // when input is focused add focused class for style
 function focused(el) {
@@ -59,7 +65,7 @@ function setAttributes(el, options) {
 }
 
 // adding on inputs attributes for calling the focused and defocused functions
-if (document.querySelectorAll('.input-group').length != 0) {
+if (document.querySelectorAll('.input-group').length !== 0) {
   var allInputs = document.querySelectorAll('input.form-control');
   allInputs.forEach(el => setAttributes(el, {
     "onfocus": "focused(this)",
@@ -71,7 +77,6 @@ if (document.querySelectorAll('.input-group').length != 0) {
 // Fixed Plugin
 
 if (document.querySelector('.fixed-plugin')) {
-  var fixedPlugin = document.querySelector('.fixed-plugin');
   var fixedPlugin = document.querySelector('.fixed-plugin');
   var fixedPluginButton = document.querySelector('.fixed-plugin-button');
   var fixedPluginButtonNav = document.querySelector('.fixed-plugin-button-nav');
@@ -104,16 +109,16 @@ if (document.querySelector('.fixed-plugin')) {
     el.onclick = function() {
       fixedPlugin.classList.remove('show');
     }
-  })
+  });
 
   document.querySelector('body').onclick = function(e) {
-    if (e.target != fixedPluginButton && e.target != fixedPluginButtonNav && e.target.closest('.fixed-plugin .card') != fixedPluginCard) {
+    if (e.target !== fixedPluginButton && e.target !== fixedPluginButtonNav && e.target.closest('.fixed-plugin .card') !== fixedPluginCard) {
       fixedPlugin.classList.remove('show');
     }
-  }
+  };
 
   if (navbar) {
-    if (navbar.getAttribute('data-scroll') == 'true' && buttonNavbarFixed) {
+    if (navbar.getAttribute('data-scroll') === 'true' && buttonNavbarFixed) {
       buttonNavbarFixed.setAttribute("checked", "true");
     }
   }
@@ -177,7 +182,7 @@ function sidebarType(a) {
 
 
   // Remove text-white/text-dark classes
-  if (color == 'bg-transparent' || color == 'bg-white') {
+  if (color === 'bg-transparent' || color === 'bg-white') {
     var textWhites = document.querySelectorAll('.sidenav .text-white:not(.nav-link-text):not(.active)');
     for (let i = 0; i < textWhites.length; i++) {
       textWhites[i].classList.remove('text-white');
@@ -191,7 +196,7 @@ function sidebarType(a) {
     }
   }
 
-  if (color == 'bg-transparent' && bodyDark) {
+  if (color === 'bg-transparent' && bodyDark) {
     var textDarks = document.querySelectorAll('.navbar-brand .text-dark');
     for (let i = 0; i < textDarks.length; i++) {
       textDarks[i].classList.add('text-white');
@@ -201,7 +206,7 @@ function sidebarType(a) {
 
   // Remove logo-white/logo-dark
 
-  if ((color == 'bg-transparent' || color == 'bg-white') && bodyWhite) {
+  if ((color === 'bg-transparent' || color === 'bg-white') && bodyWhite) {
     var navbarBrand = document.querySelector('.navbar-brand-img');
     var navbarBrandImg = navbarBrand.src;
 
@@ -218,7 +223,7 @@ function sidebarType(a) {
     }
   }
 
-  if (color == 'bg-white' && bodyDark) {
+  if (color === 'bg-white' && bodyDark) {
     var navbarBrand = document.querySelector('.navbar-brand-img');
     var navbarBrandImg = navbarBrand.src;
 
@@ -245,7 +250,7 @@ function navbarFixed(el) {
     navbarBlurOnScroll('navbarBlur');
     el.removeAttribute("checked");
   }
-};
+}
 
 
 // Set Navbar Minimized
@@ -271,7 +276,7 @@ function navbarBlurOnScroll(id) {
   let classes = ['blur', 'shadow-blur', 'left-auto'];
   let toggleClasses = ['shadow-none'];
 
-  if (navbarScrollActive == 'true') {
+  if (navbarScrollActive === 'true') {
     window.onscroll = debounce(function() {
       if (window.scrollY > scrollDistance) {
         blurNavbar();
@@ -289,7 +294,7 @@ function navbarBlurOnScroll(id) {
 
   if (isWindows) {
     var content = document.querySelector('.main-content');
-    if (navbarScrollActive == 'true') {
+    if (navbarScrollActive === 'true') {
       content.addEventListener('ps-scroll-y', debounce(function() {
         if (content.scrollTop > scrollDistance) {
           blurNavbar();
@@ -305,22 +310,22 @@ function navbarBlurOnScroll(id) {
   }
 
   function blurNavbar() {
-    navbar.classList.add(...classes)
-    navbar.classList.remove(...toggleClasses)
+    navbar.classList.add(...classes);
+    navbar.classList.remove(...toggleClasses);
 
     toggleNavLinksColor('blur');
   }
 
   function transparentNavbar() {
-    navbar.classList.remove(...classes)
-    navbar.classList.add(...toggleClasses)
+    navbar.classList.remove(...classes);
+    navbar.classList.add(...toggleClasses);
 
     toggleNavLinksColor('transparent');
   }
 
   function toggleNavLinksColor(type) {
-    let navLinks = document.querySelectorAll('.navbar-main .nav-link')
-    let navLinksToggler = document.querySelectorAll('.navbar-main .sidenav-toggler-line')
+    let navLinks = document.querySelectorAll('.navbar-main .nav-link');
+    let navLinksToggler = document.querySelectorAll('.navbar-main .sidenav-toggler-line');
 
     if (type === "blur") {
       navLinks.forEach(element => {
@@ -361,7 +366,7 @@ function debounce(func, wait, immediate) {
     timeout = setTimeout(later, wait);
     if (callNow) func.apply(context, args);
   };
-};
+}
 
 // initialization of Toasts
 document.addEventListener("DOMContentLoaded", function() {
@@ -546,7 +551,7 @@ window.onload = function() {
     }, false);
 
     inputs[i].onkeyup = function(e) {
-      if (this.value != "") {
+      if (this.value !== "") {
         this.parentElement.classList.add('is-filled');
       } else {
         this.parentElement.classList.remove('is-filled');
@@ -554,7 +559,7 @@ window.onload = function() {
     };
 
     inputs[i].addEventListener('focusout', function(e) {
-      if (this.value != "") {
+      if (this.value !== "") {
         this.parentElement.classList.add('is-filled');
       }
       this.parentElement.classList.remove('is-focused');
@@ -808,7 +813,7 @@ function darkMode(el) {
     }
     el.removeAttribute("checked");
   }
-};
+}
 
 
 // side bullets

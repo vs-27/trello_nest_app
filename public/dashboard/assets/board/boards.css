@@ -38,10 +38,9 @@ button {
 }
 .trello-chat-form button:hover {
   background-color: #005ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-.trello-chat-messages {
-  height: 280px;
-}
+
 .container-fluid button .trello-chat-container {
   flex: 1;
   min-width: 100px;

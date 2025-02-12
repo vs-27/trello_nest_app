@@ -1,10 +1,15 @@
-<div class="trello-chat-container">
-    <div class="trello-chat-header">Chat</div>
-    <div class="trello-chat-name"></div>
-    <div class="trello-chat-messages">
+<a type="button" class="fixed-chat-button text-dark position-fixed px-3 py-2 chat-toggle-btn">
+    <i class="fixed-chat-name material-symbols-rounded py-2">chat</i>
+</a>
+
+<div class="chat-modal" id="chat-modal">
+    <div class="trello-chat-container">
+        <div class="trello-chat-header">Chat</div>
+        <div class="trello-chat-name"></div>
+        <div class="trello-chat-messages"></div>
+        <form class="trello-chat-form">
+            <input type="text" placeholder="Type a message..." class="trello-chat-input">
+            <button type="submit">Send</button>
+        </form>
     </div>
-    <form class="trello-chat-form">
-        <input type="text" placeholder="Type a message..." class="trello-chat-input">
-        <button type="submit">Send</button>
-    </form>
 </div>

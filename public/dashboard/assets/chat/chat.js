@@ -78,3 +78,9 @@ $(document).ready(async () => {
   const messages = await fetchMessages(boardId, userId);
   messages.reverse().forEach(msg => appendMessage(msg, true));
 });
+
+$(document).ready(async () => {
+  $('body').on('click', '.chat-toggle-btn', () => {
+    $('#chat-modal').toggleClass('chat-display');
+  })
+});
