@@ -20,6 +20,6 @@ export class DashboardController {
   @Render('main/views/pages/boards')
   async getAllBoards(@Res() res: Response) {
     const boards = await this.boardService.getAllBoards();
-    return { boards};
+    return { boards };
   }
 }

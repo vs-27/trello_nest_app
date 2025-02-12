@@ -6,7 +6,6 @@ h1 {
   text-align: center;
   border-radius: 10px;
 }
-
 button {
   background-color: #28a745;
   color: white;
@@ -18,38 +17,18 @@ button {
   border-radius: 5px;
   display: flex;
 }
-
 .boards-container {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
 }
-.boards-container .trello-chat-container {
-  margin-top: 20px;
-}
 .boards-container button {
   height: 45px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-.trello-chat-form button {
-  margin: 0;
-  border-radius: 0;
-  height: auto;
-}
-.trello-chat-form button:hover {
-  background-color: #005ddd;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.container-fluid button .trello-chat-container {
-  flex: 1;
-  min-width: 100px;
-}
-
 button:hover {
   background-color: #218838;
 }
-
 .boards{
   list-style: none;
   padding: 0;
@@ -60,7 +39,6 @@ button:hover {
   gap: 10px;
   flex: 1;
 }
-
 .boards li {
   background: lightgray;
   padding: 15px;
@@ -68,11 +46,9 @@ button:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
-
 .boards button {
   margin: 20px auto 0;
 }
-
 .modal {
   display: none;
   position: fixed;
@@ -85,7 +61,6 @@ button:hover {
   justify-content: center;
   z-index: 9999;
 }
-
 .modal-content {
   background: white;
   padding: 20px;
@@ -94,7 +69,6 @@ button:hover {
   width: 300px;
   text-align: center;
 }
-
 .modal-content input {
   width: 90%;
   padding: 10px;
@@ -107,12 +81,10 @@ button:hover {
   background-color: rgb(232, 240, 254);
   border-color: #28a745;
 }
-
 .modal-content button {
   margin: 5px;
   text-align: center;
 }
-
 .modal-btn {
   display: flex;
   flex-wrap: wrap;

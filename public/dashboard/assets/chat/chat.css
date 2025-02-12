@@ -1,30 +1,11 @@
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
 @media (prefers-reduced-motion: no-preference) {
   :root {
     scroll-behavior: smooth;
   }
 }
-body {
-  margin: 0;
-  font-family: var(--bs-body-font-family);
-  font-size: var(--bs-body-font-size);
-  font-weight: var(--bs-body-font-weight);
-  line-height: var(--bs-body-line-height);
-  color: var(--bs-body-color);
-  text-align: var(--bs-body-text-align);
-  background-color: var(--bs-body-bg);
-  -webkit-text-size-adjust: 100%;
-  -webkit-tap-highlight-color: rgba(10, 10, 10, 0);
-}
-
-
 .trello-chat-container {
   width: 300px;
+  margin-top: 20px;
   border: 1px solid #ccc;
   border-radius: 10px;
   overflow: hidden;
@@ -40,9 +21,10 @@ body {
 }
 .trello-chat-messages {
   height: 280px;
-  overflow-y: auto;
+  overflow: auto;
   padding: 10px;
   background: #f9f9f9;
+  scroll-behavior: smooth;
 }
 
 .trello-chat-form {
@@ -57,15 +39,15 @@ body {
 }
 .trello-chat-form button {
   padding: 10px;
+  margin: 0;
   background-color: #007bff;
   color: white;
   border: none;
   cursor: pointer;
 }
-.trello-message {
-  margin-bottom: 10px;
-  padding: 8px;
-  border-radius: 5px;
+.trello-chat-form button:hover {
+  background-color: #005ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 .trello-chat-name {
   padding: 5px;
@@ -73,6 +55,23 @@ body {
   text-align: center;
   font-weight: bold;
   color: black;
+}
+.trello-message {
+  margin-bottom: 10px;
+  padding: 8px;
+  border-radius: 5px;
+  font-size: 16px;
+}
+.trello-message.user-message {
+  font-size: 17px;
+  font-weight: bold;
+  color: darkslategray;
+}
+.trello-message:nth-child(odd) {
+  background-color: #e3f2fd;
+}
+.trello-message:nth-child(even) {
+  background-color: #ffebee;
 }
 .chat-toggle-btn {
   right: 90px;
@@ -83,25 +82,12 @@ body {
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.16);
   cursor: pointer;
 }
-
-.fixed-chat-name {
-  vertical-align: middle;
-  margin-top: -1px;
-  margin-bottom: -1px;
-  font-size: 1.25rem;
-  display: inline-block;
-  top: 0;
-}
-
-.trello-message:nth-child(odd) { background-color: #e3f2fd; }
-.trello-message:nth-child(even) { background-color: #ffebee; }
-
 #chat-modal {
   display: none;
   position: fixed;
   z-index: 9999;
-  right: 12px;
-  bottom: 90px;
+  right: 25px;
+  bottom: 120px;
 }
 .chat-display {
   display: flex!important;

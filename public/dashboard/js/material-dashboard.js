@@ -23,12 +23,6 @@
       var fixedplugin = document.querySelector('.fixed-plugin');
       var ps3 = new PerfectScrollbar(fixedplugin);
     }
-  
-    if (document.getElementsByClassName('.fixed-chat-plugin')[0]) {
-      var fixedchatplugin = document.querySelector('.fixed-chat-plugin');
-      var ps4 = new PerfectScrollbar(fixedchatplugin);
-    }
-    
   }
 })();
 
