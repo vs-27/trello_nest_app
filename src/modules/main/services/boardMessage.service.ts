@@ -23,7 +23,7 @@ export class BoardMessageService {
       throw new NotFoundException('Board not found');
     }
 
-    const User = await this.userRepository.findOne({ where: { id: user.id }, select: ['id']});
+    const User = await this.userRepository.findOne({ where: { id: user.id, username: user.username }, select: ['id', 'username']});
     if (!User) {
       throw new NotFoundException('User not found');
     }

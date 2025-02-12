@@ -21,10 +21,6 @@
 {% block content %}
     <h1>Boards</h1>
     <div class="boards-container">
-        {% block chat %}
-            {% include '../layout/partials/chat.twig' %}
-        {% endblock %}
-
         <ul class="boards">
             {% for board in boards %}
             <li style="background-color: {{ board.backgroundColor }}">

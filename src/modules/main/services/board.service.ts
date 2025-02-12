@@ -19,7 +19,7 @@ export class BoardService {
 
   async getAllBoards() {
     return await this.boardRepository.find(
-      {select: ['name', 'description', 'color', 'font', 'backgroundColor']}
+      {select: ['id', 'name', 'description', 'color', 'font', 'backgroundColor']}
       );
   }
 

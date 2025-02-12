@@ -4,7 +4,8 @@ const form = document.querySelector('.form');
 const input = document.querySelector('.input');
 const nameBlock = document.querySelector('.name');
 
-const userName = prompt('Your name:');
+const userName = prompt(`${user.username}`);
+
 nameBlock.innerHTML = `${userName}`;
 
 
@@ -18,13 +19,8 @@ form.addEventListener('submit', (e) => {
 });
 
 socket.on('chat message', (data) => {
-  console.log("Received message:", data);
   const item = document.createElement('li');
 
   item.innerHTML = `<span>${data.name}</span>: ${data.message}`;
   messages.appendChild(item);
-
-  console.log("Messages container:", messages);
-
-console.log("Main.js is loaded!");
 });
