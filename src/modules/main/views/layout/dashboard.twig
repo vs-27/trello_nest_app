@@ -149,6 +149,7 @@
     <!-- End Navbar -->
     <div class="container-fluid py-2">
       {% block content %}{% endblock %}
+      {% block currentBoard %}{% endblock %}
       <footer class="footer py-4  ">
         <div class="container-fluid">
           <div class="row align-items-center justify-content-lg-between">
@@ -272,6 +273,16 @@
     <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="/dashboard/js/material-dashboard.min.js?v=3.2.0"></script>
     <script src="/dashboard/assets/chat/chat.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const container = document.querySelector(".container-fluid h1");
+        const breadcrumb = document.querySelector(".breadcrumb-item.active");
+
+        if (container && breadcrumb) {
+          breadcrumb.textContent = container.textContent.trim();
+        }
+      });
+    </script>
   {% endblock %}
 </body>
 

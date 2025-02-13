@@ -39,7 +39,7 @@ button:hover {
   gap: 10px;
   flex: 1;
 }
-.boards li {
+.boards li, .board li{
   background: lightgray;
   padding: 15px;
   border-radius: 10px;
@@ -48,6 +48,22 @@ button:hover {
 }
 .boards button {
   margin: 20px auto 0;
+}
+.boards-container .boards-modal-button {
+  display: block;
+  position: fixed;
+  right: 15px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+.board {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+  text-align: center;
+  display: flex
+;
 }
 .modal {
   display: none;

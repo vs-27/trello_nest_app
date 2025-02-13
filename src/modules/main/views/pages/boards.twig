@@ -23,7 +23,7 @@
     <div class="boards-container">
         <ul class="boards">
             {% for board in boards %}
-            <li style="background-color: {{ board.backgroundColor }}">
+            <li id="{{ board.id }}" style="background-color: {{ board.backgroundColor }}">
                     <h6 style="color: {{ board.color }}">Name: {{ board.name }}</h6>
                     <h6 style="color: {{ board.color }}">Description: {{ board.description }}</h6>
                     <h6 style="color: {{ board.color }}">Color: {{ board.color }}</h6>
@@ -36,7 +36,8 @@
             {% endfor %}
         </ul>
 
-        <button onclick="openModal()">Create New Board</button>
+{#        <button onclick="openModal()">Create New Board</button>#}
+        <button class="boards-modal-button" onclick="openModal()">New Board</button>
 
         <div id="modal" class="modal">
             <div class="modal-content">

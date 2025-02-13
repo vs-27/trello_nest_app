@@ -1,4 +1,4 @@
-import { Controller, Get, Res, Render } from '@nestjs/common';
+import { Controller, Get, Res, Render, Param } from '@nestjs/common';
 import { Response } from 'express';
 import { BoardService } from '../../services/board.service';
 
@@ -22,4 +22,12 @@ export class DashboardController {
     const boards = await this.boardService.getAllBoards();
     return { boards };
   }
+
+  @Get('/boards/:id')
+  @Render('main/views/pages/board')
+  async getBoardById(@Param('id') id: number) {
+    const board = await this.boardService.getBoardById(id);
+    return { board };
+  }
+
 }
