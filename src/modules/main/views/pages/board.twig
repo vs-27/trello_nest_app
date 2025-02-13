@@ -3,6 +3,7 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="/dashboard/assets/board/boards.css">
+    <link rel="stylesheet" href="/webpack/front-assets/react/board.css">
 {% endblock %}
 
 {% block currentBoard %}
@@ -18,4 +19,10 @@
                 </li>
             </div>
     </div>
+    <div id="react-board-app"></div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="/webpack/front-assets/react/board.js"></script>
 {% endblock %}

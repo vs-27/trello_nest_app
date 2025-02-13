@@ -1,8 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client'; // ✅ Import from 'react-dom/client'
 import App from './components/app';
 
-ReactDOM.render(
-  <App />,
-  document.getElementById('react-board-app'),
-);
+const root = ReactDOM.createRoot(document.getElementById('react-board-app'));
+root.render(<App />);

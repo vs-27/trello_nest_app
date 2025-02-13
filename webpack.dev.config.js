@@ -10,7 +10,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         ignored: '**/node_modules',
     },
     mode: 'development',
-    devtool: 'cheap-module-eval-source-map',
+    devtool: 'eval-cheap-module-source-map',
     plugins: [
         new webpack.SourceMapDevToolPlugin({
             filename: '[file].map'
