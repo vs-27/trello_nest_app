@@ -2,6 +2,7 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const glob = require('glob');
 const WebpackBar = require('webpackbar');
+const webpack = require('webpack');
 
 const isProduction = () => process.env.NODE_ENV === 'production';
 
@@ -259,7 +260,10 @@ module.exports = {
     new WebpackBar({
       profile: true,
     }),
-
+    new webpack.DefinePlugin({
+      'process.env': JSON.stringify(process.env)
+    }),
+    
     new MiniCssExtractPlugin({
       filename: '[name].css',
     }),
