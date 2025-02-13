@@ -122,11 +122,8 @@ module.exports = {
           {
             loader: 'postcss-loader',
             options: {
-              sourceMap: !isProduction(),
-              config: {
-                path: './postcss.config.js',
-              },
-            },
+              postcssOptions: require('./postcss.config.js')
+            }
           },
           {
             loader: 'less-loader',
