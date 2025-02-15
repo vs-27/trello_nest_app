@@ -31,7 +31,7 @@ export class BoardEntity {
   createdBy: UserEntity;
 
   @OneToMany(() => ColumnEntity, (column) => column.board)
-  columns: ColumnEntity;
+  columns: ColumnEntity[];
 
   @OneToMany(() => BoardMessageEntity, (message) => message.board)
   messages: BoardMessageEntity[];
