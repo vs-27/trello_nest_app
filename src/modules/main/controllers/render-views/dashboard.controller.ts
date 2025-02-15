@@ -29,5 +29,4 @@ export class DashboardController {
     const board = await this.boardService.getBoardById(id);
     return { board };
   }
-
 }

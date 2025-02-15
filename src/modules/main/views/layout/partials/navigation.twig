@@ -1,7 +1,7 @@
 {% set navItems = [
     { name: 'Boards', url: '/dashboard/boards' },
-    { name: 'Products', url: '/products' },
-    { name: 'Cart', url: '/cart' }
+    { name: 'Products', url: '/dashboard/products' },
+    { name: 'Cart', url: '/dashboard/cart' }
 ] %}
 
 
@@ -23,7 +23,7 @@
         <ul class="navbar-nav">
             {% for item in navItems %}
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="{{ item.url }}">
+                    <a class="nav-link text-dark {% if loop.first %}active{% endif %}" href="{{ item.url }}">
                         <i class="material-symbols-rounded opacity-5">dashboard</i>
                         <span class="nav-link-text ms-1">{{ item.name }}</span>
                     </a>

@@ -7,19 +7,10 @@
 {% endblock %}
 
 {% block currentBoard %}
-    <h1>Board</h1>
-    <div class="boards-container">
-            <div class="board" id="{{ board.id }}">
-                <li  style="background-color: {{ board.backgroundColor }}">
-                    <h6 style="color: {{ board.color }}">Name: {{ board.name }}</h6>
-                    <h6 style="color: {{ board.color }}">Description: {{ board.description }}</h6>
-                    <h6 style="color: {{ board.color }}">Color: {{ board.color }}</h6>
-                    <h6 style="color: {{ board.color }}">Font: {{ board.font }}</h6>
-                    <h6 style="color: {{ board.color }}">BackgroundColor: {{ board.backgroundColor }}</h6>
-                </li>
-            </div>
+    <h1>{{ board.name }}</h1>
+    <div class="react-trello-board" id="react-board-app" style="--background-color: {{ board.backgroundColor }};">
+
     </div>
-    <div id="react-board-app"></div>
 {% endblock %}
 
 {% block javascripts %}

@@ -257,6 +257,10 @@
     <script src="/dashboard/js/core/bootstrap.min.js"></script>
     <script src="/dashboard/js/plugins/perfect-scrollbar.min.js"></script>
     <script src="/dashboard/js/plugins/smooth-scrollbar.min.js"></script>
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="/dashboard/js/material-dashboard.min.js?v=3.2.0"></script>
+    <script src="/dashboard/assets/chat/chat.js"></script>
     <script>
       var win = navigator.platform.indexOf('Win') > -1;
       if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -266,20 +270,17 @@
         Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
       }
     </script>
-    <!-- Github buttons -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-
-    <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-    <script src="/dashboard/js/material-dashboard.min.js?v=3.2.0"></script>
-    <script src="/dashboard/assets/chat/chat.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
+        const boardText = " Board / ";
+        const boardId = "{{ board.id }}";
+        const isBoardPage = window.location.pathname.includes(`/boards/${boardId}`);
+
         const container = document.querySelector(".container-fluid h1");
         const breadcrumb = document.querySelector(".breadcrumb-item.active");
 
-        if (container && breadcrumb) {
-          breadcrumb.textContent = container.textContent.trim();
+        if (isBoardPage && container && breadcrumb) {
+          breadcrumb.textContent = boardText + container.textContent.trim();
         }
       });
     </script>
