@@ -1,6 +1,6 @@
 import { API_BASE_URL, AUTH_ENDPOINT, HEADERS, STORAGE_KEY } from '../../../env';
 
-class RequestServerService {
+export class RequestServerService {
   constructor() {
     this.baseUrl = API_BASE_URL;
   }
@@ -16,7 +16,7 @@ class RequestServerService {
       if (!response.ok) throw new Error(`Failed to fetch token: ${response.status}`);
       
       const data = await response.json();
-      localStorage.setItem(STORAGE_KEY, data.token); // Save token to localStorage
+      localStorage.setItem(STORAGE_KEY, data.token);
       return data.token;
     } catch (error) {
       console.error('Error getting token:', error);
