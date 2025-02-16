@@ -50,9 +50,40 @@ const App = () => {
     })
   };
   
-  const handleCardAdd = (card, laneId) => {
+  const handleCardAdd = async (card, laneId) => {
     console.log(`New card added to lane ${laneId}`);
-    console.dir(card)
+    console.dir(card);
+    
+    const token = localStorage.getItem('jwt_token');
+    
+    const newTask = {
+      type: card.type || "default",
+      title: card.title || "Untitled",
+      description: card.description || "No description",
+      link: card.link || "No link",
+      estimation: card.estimation || "No estimation",
+      columnId: Number(laneId),
+    };
+    
+    try {
+      const response = await fetch('/tasks', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(newTask)
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} - ${await response.text()}`);
+      }
+      
+      console.log('✅ Task created successfully!');
+    } catch (error) {
+      console.error('❌ Failed to create task:', error.message);
+      alert(`Error: ${error.message}`);
+    }
   };
   
   return (
