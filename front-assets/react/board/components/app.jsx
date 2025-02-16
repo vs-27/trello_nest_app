@@ -3,17 +3,11 @@ import React, { useState, useEffect } from 'react'
 import Board from 'react-trello'
 import URI from 'urijs';
 import { RequestServerService } from '../../../basic/services/requestServerService';
+import axios from 'axios';
 
 const data = require('./data.json');
 
 const parseUrlBoardId = () => (new URI(document.location.href)).segment(2);
-
-const handleDragEnd = (cardId, sourceLaneId, targetLaneId) => {
-  console.log('drag ended');
-  console.log(`cardId: ${cardId}`);
-  console.log(`sourceLaneId: ${sourceLaneId}`);
-  console.log(`targetLaneId: ${targetLaneId}`)
-};
 
 const requestService = new RequestServerService();
 const App = () => {
@@ -28,7 +22,6 @@ const App = () => {
       setBoardConfig(board);
     });
   };
-  
   const refreshBoardData = () => {
     requestService.get(`/boards/${parseUrlBoardId()}/data`).then(({ data }) => {
       setBoardData(data);
@@ -37,10 +30,8 @@ const App = () => {
   
   useEffect(async () => {
     if (!appInitialized) {
-      setAppInitialized(true);
-  
-      await getBoardConfig();
       await refreshBoardData();
+      setAppInitialized(true);
     }
   }, []);
   
@@ -48,6 +39,13 @@ const App = () => {
     return new Promise((resolve) => {
       resolve(data)
     })
+  };
+  
+  const handleDragEnd = async (cardId, sourceLaneId, targetLaneId) => {
+    await axios.patch(`http://localhost:3000/tasks/${cardId}/move`, {
+      columnId: parseInt(targetLaneId, 10),
+      boardId: parseInt(targetLaneId, 10),
+    });
   };
   
   const handleCardAdd = async (card, laneId) => {

@@ -25,3 +25,11 @@ export class CreateTaskDto {
   @IsNumber()
   columnId: number;
 }
+
+export class MoveTaskDto {
+  @IsNumber()
+  columnId: number;
+
+  @IsNumber()
+  boardId: number;
+}
