@@ -33,7 +33,10 @@ export class TaskEntity {
   @CreateDateColumn()
   endTime: Date;
 
-  @ManyToOne(() => ColumnEntity, (column) => column.tasks)
+  @Column({ type: 'int', default: 0 })
+  position: number;
+
+  @ManyToOne(() => ColumnEntity, (column) => column.tasks, { onDelete: 'CASCADE' })
   column: ColumnEntity;
 
   @OneToMany(() => FileEntity, (file) => file.task)

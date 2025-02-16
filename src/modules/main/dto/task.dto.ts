@@ -1,4 +1,4 @@
-import { IsDate, IsNumber, IsString } from 'class-validator';
+import { IsDate, IsInt, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateTaskDto {
   @IsString()
@@ -27,9 +27,11 @@ export class CreateTaskDto {
 }
 
 export class MoveTaskDto {
-  @IsNumber()
+  @IsInt()
+  @IsNotEmpty()
   columnId: number;
 
-  @IsNumber()
-  boardId: number;
+  @IsInt()
+  @IsNotEmpty()
+  position: number;
 }
