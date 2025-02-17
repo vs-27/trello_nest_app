@@ -51,11 +51,11 @@ export class BoardService {
           const tasks = await this.taskService.getTasksByColumn(column);
           return {
             id: column.id,
-            title: column.title,
+            title: `${column.title}  #${column.id}`,
             label: column.description,
             cards: tasks.map((task: TaskEntity) => ({
               id: task.id,
-              title: task.title,
+              title: `${task.title} #${task.id}`,
               label: `${task.title}  :  ${task.estimation}`,
               description: task.description,
             })),
