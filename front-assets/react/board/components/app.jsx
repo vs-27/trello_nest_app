@@ -13,7 +13,6 @@ const requestService = new RequestServerService();
 const App = () => {
   const [appInitialized, setAppInitialized] = useState(false);
   const [boardConfig, setBoardConfig] = useState(null);
-
   const [boardData, setBoardData] = useState({ lanes: [] });
   const [eventBus, setEventBus] = useState(null);
   
@@ -35,17 +34,17 @@ const App = () => {
     }
   }, []);
   
-  const getBoard = () => {
-    return new Promise((resolve) => {
-      resolve(data)
-    })
-  };
-  
-  const handleDragEnd = async (cardId, sourceLaneId, targetLaneId) => {
-    await axios.patch(`http://localhost:3000/tasks/${cardId}/move`, {
-      columnId: parseInt(targetLaneId, 10),
-      boardId: parseInt(targetLaneId, 10),
-    });
+  const handleDragEnd = async (cardId, sourceLaneId, targetLaneId, newPosition) => {
+    try {
+      requestService.patch(`/tasks/${cardId}/move`, {
+        columnId: parseInt(targetLaneId, 10),
+        position: newPosition,
+      }).then(() => {
+        refreshBoardData();
+      });
+    } catch (error) {
+      console.error("❌ Failed to move task:", error);
+    }
   };
   
   const handleCardAdd = async (card, laneId) => {

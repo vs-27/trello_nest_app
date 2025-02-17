@@ -70,22 +70,38 @@ export class TaskService {
 
     const newColumn = await this.columnRepository.findOne({
       where: { id: moveData.columnId },
-      relations: ['board'],
+      relations: ['tasks', 'board'],
     });
 
     if (!newColumn) {
       throw new NotFoundException('Column not found');
     }
 
-    const boardId = newColumn.board.id;
-
-    if (newColumn.board.id !== boardId) {
-      throw new NotFoundException('Board mismatch for the given column');
-    }
-
     task.column = newColumn;
     await this.taskRepository.save(task);
 
+    const allTasks = await this.taskRepository.find({
+      where: { column: { id: moveData.columnId } },
+      order: { position: 'ASC' },
+    });
+
+    const excludedCurrent = allTasks.filter((t) => {
+      return t.id !== task.id;
+    });
+
+    await this.reorderColumnTasks([
+      ...excludedCurrent.slice(0, moveData.position),
+      task,
+      ...excludedCurrent.slice(moveData.position),
+    ]);
+
     return { message: 'Task moved successfully', task };
+  }
+
+  async reorderColumnTasks(tasks: TaskEntity[]) {
+    for (let i = 0; i < tasks.length; i++) {
+      tasks[i].position = i;
+      await this.taskRepository.update(tasks[i].id, { position: i });
+    }
   }
 }

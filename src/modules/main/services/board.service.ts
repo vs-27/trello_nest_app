@@ -58,6 +58,7 @@ export class BoardService {
               title: `${task.title} #${task.id}`,
               label: `${task.title}  :  ${task.estimation}`,
               description: task.description,
+              position: task.position
             })),
           };
         })

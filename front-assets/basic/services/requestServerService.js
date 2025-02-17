@@ -64,6 +64,10 @@ export class RequestServerService {
     return this.request('POST', url, data);
   }
   
+  patch(url, data) {
+    return this.request('PATCH', url, data);
+  }
+  
   put(url, data) {
     return this.request('PUT', url, data);
   }
