@@ -84,6 +84,30 @@ const App = () => {
     }
   };
   
+  const handleCardDelete = async (cardId, laneId) => {
+    console.log(`New card deleted from lane ${laneId}`);
+    
+    const token = localStorage.getItem('jwt_token');
+    
+    try {
+      const response = await fetch(`http://localhost:3000/tasks/${cardId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} - ${await response.text()}`);
+      }
+      
+      console.log('✅ Task deleted successfully!');
+    } catch (error) {
+      console.error('❌ Failed to delete task:', error.message);
+      alert(`Error: ${error.message}`);
+    }
+  };
+  
   return (
     <div className="App">
       <div className="App-header">
@@ -93,6 +117,7 @@ const App = () => {
         <Board
           editable
           onCardAdd={handleCardAdd}
+          onCardDelete={handleCardDelete}
           data={boardData}
           draggable
           eventBusHandle={setEventBus}
