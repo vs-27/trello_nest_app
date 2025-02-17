@@ -1,4 +1,11 @@
-import { IsDate, IsInt, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import {
+  IsInt,
+  IsISO8601,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString
+} from 'class-validator';
 
 export class CreateTaskDto {
   @IsString()
@@ -16,11 +23,13 @@ export class CreateTaskDto {
   @IsString()
   estimation: string;
 
-  @IsDate()
-  startTime?: Date;
+  @IsOptional()
+  @IsISO8601()
+  startTime?: string;
 
-  @IsDate()
-  endTime?: Date;
+  @IsOptional()
+  @IsISO8601()
+  endTime?: string;
 
   @IsNumber()
   columnId: number;

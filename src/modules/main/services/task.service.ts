@@ -26,25 +26,27 @@ export class TaskService {
     user: UserEntity,
     createTaskDto: CreateTaskDto,
   ): Promise<TaskEntity> {
-    const { columnId, ...taskData } = createTaskDto;
+    const { columnId, startTime, endTime, ...taskData } = createTaskDto;
 
     const column = await this.columnRepository.findOne({
       where: { id: columnId },
-      relations: [ 'board' ],
+      relations: ['board'],
     });
 
     if (!column) {
       throw new Error('Column not found');
     }
 
-    const entityData = { ...taskData, createdBy: user };
-    entityData['column'] = column;
-
-    if (!user.boards.filter(({ id }) => column.board.id === id).length) {
+    if (!user.boards.some(({ id }) => column.board.id === id)) {
       throw new Error('Column not associated with user');
     }
 
-    const task = this.taskRepository.create(entityData);
+    const task = this.taskRepository.create({
+      ...taskData,
+      column,
+      startTime: startTime ? new Date(startTime) : null,
+      endTime: endTime ? new Date(endTime) : null,
+    });
 
     return this.taskRepository.save(task);
   }

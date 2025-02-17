@@ -27,10 +27,10 @@ export class TaskEntity {
   @Column()
   estimation: string;
 
-  @CreateDateColumn()
+  @Column({ type: 'timestamp' })
   startTime: Date;
 
-  @CreateDateColumn()
+  @Column({ type: 'timestamp' })
   endTime: Date;
 
   @Column({ type: 'int', default: 0 })
