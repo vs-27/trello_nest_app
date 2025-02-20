@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react'
 import Board from 'react-trello'
 import URI from 'urijs';
 import { RequestServerService } from '../../../basic/services/requestServerService';
-import axios from 'axios';
 
 const data = require('./data.json');
 
