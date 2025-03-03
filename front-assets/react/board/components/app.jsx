@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react'
 import Board from 'react-trello'
 import URI from 'urijs';
 import { RequestServerService } from '../../../basic/services/requestServerService';
+import CardModal from './cardModal';
 
-const data = require('./data.json');
 
 const parseUrlBoardId = () => (new URI(document.location.href)).segment(2);
 
@@ -14,6 +14,9 @@ const App = () => {
   const [boardConfig, setBoardConfig] = useState(null);
   const [boardData, setBoardData] = useState({ lanes: [] });
   const [eventBus, setEventBus] = useState(null);
+
+  const [isCardModalOpen, setIsCardModalOpen] = useState(false);
+  const [cardModalObject, setCardModalObject] = useState(null);
   
   const getBoardConfig = () => {
     requestService.get(`/boards/${parseUrlBoardId()}`).then(({ board }) => {
@@ -113,15 +116,45 @@ const App = () => {
       </div>
       <div className="App-intro">
         <Board
-          editable
-          onCardAdd={handleCardAdd}
-          onCardDelete={handleCardDelete}
+          // editable
+          // onCardAdd={handleCardAdd}
+          // onCardDelete={handleCardDelete}
+          // draggable
+          // eventBusHandle={setEventBus}
+          // handleDragEnd={handleDragEnd}
+          
           data={boardData}
-          draggable
-          eventBusHandle={setEventBus}
-          handleDragEnd={handleDragEnd}
+          onCardClick={(cardId, metadata, laneId) => {
+            let lane = boardData.lanes.filter(({ id: lId }) => lId === laneId);
+            lane = lane[0];
+            const card = lane.cards.filter(({ id: cId }) => cId === cardId);
+  
+            setCardModalObject(card[0]);
+            setTimeout(() => {
+              setIsCardModalOpen(true);
+            }, 0);
+          }}
+          components={{
+            AddCardLink: () => (
+              <button
+                type="submit"
+                onClick={() => {
+                  setCardModalObject(null);
+                  setIsCardModalOpen(true);
+                }}
+              >Add</button>
+            )
+          }}
         />
       </div>
+      <CardModal
+        isOpen={isCardModalOpen}
+        onClose={() => {
+          setCardModalObject(null);
+          setIsCardModalOpen(false);
+        }}
+        card={cardModalObject}
+      />
     </div>
   )
 };
